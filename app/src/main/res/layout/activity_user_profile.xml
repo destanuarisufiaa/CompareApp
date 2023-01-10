@@ -54,6 +54,7 @@
             android:enabled="true"
             android:text="Email :"
             android:textColor="@color/black"/>
+
             <TextView
                 android:id="@+id/statuss"
                 android:layout_width="match_parent"

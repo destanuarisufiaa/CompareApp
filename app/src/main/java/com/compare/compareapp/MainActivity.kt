@@ -17,7 +17,7 @@ private lateinit var tombol : Button
 //        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_main)
 
-        tombol = findViewById(R.id.tv_to_btn)
+        tombol = findViewById(R.id.btnReadData)
         tombol.setOnClickListener{
             val intent = Intent(this, UserProfile::class.java)
             startActivity(intent)
