@@ -27,9 +27,9 @@
             android:id="@+id/txt_nama"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="true"
             android:text="Name :"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"/>
 
         <TextView
             android:id="@+id/txt_nomor"
@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:enabled="true"
             android:text="No. HP :"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"/>
 
         <TextView
             android:id="@+id/txt_gender"
@@ -45,7 +46,8 @@
             android:layout_height="wrap_content"
             android:enabled="true"
             android:text="Jenis Kelamin :"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"/>
 
         <TextView
             android:id="@+id/txt_email"
@@ -53,7 +55,8 @@
             android:layout_height="wrap_content"
             android:enabled="true"
             android:text="Email :"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"/>
 
             <TextView
                 android:id="@+id/statuss"

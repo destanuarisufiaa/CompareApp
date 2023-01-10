@@ -86,14 +86,18 @@ class register : AppCompatActivity() {
             .addOnCompleteListener(this){
                 if (it.isSuccessful){
                     Toast.makeText(this, "Register Berhasil", Toast.LENGTH_SHORT).show()
-                    val hashMap = hashMapOf<String, Any>(
+                    val user = hashMapOf<String, Any>(
                         "email" to email,
                         "name" to nama,
                         "phone" to phone,
                         "gender" to hasilGender,
                     )
-                    firestore.collection("users")
-                        .add(hashMap)
+                    val uid = auth.currentUser?.uid
+                    firestore.collection("users").document(uid!!)
+                        .set(user)
+                        .addOnSuccessListener { documentReference ->
+                            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
+                        }
                         .addOnFailureListener { exception ->
                             Log.w(ContentValues.TAG, "Error adding document $exception")
                         }

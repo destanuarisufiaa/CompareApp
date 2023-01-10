@@ -7,50 +7,55 @@ import androidx.appcompat.app.AppCompatActivity
 import com.compare.compareapp.databinding.ActivityUserProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_user_profile.*
 
 class UserProfile : AppCompatActivity() {
 
-    private var binding : ActivityUserProfileBinding? = null
-    val fireStoreDatabase = FirebaseFirestore.getInstance()
-
-    private lateinit var tvName : TextView
-    private lateinit var tvNomor : TextView
-    private lateinit var tvGender : TextView
-    private lateinit var tvEmail : TextView
+    private lateinit var ShowName : TextView
+    private lateinit var ShowPhone : TextView
+    private lateinit var ShowGender : TextView
+    private lateinit var ShowEmail : TextView
     private lateinit var statuss : TextView
+
+    private val db = Firebase.firestore
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityUserProfileBinding.inflate(layoutInflater)
-        setContentView(binding?.root)
+        setContentView(R.layout.activity_user_profile)
 
-        tvName = findViewById(R.id.txt_nama)
-        tvNomor = findViewById(R.id.txt_nomor)
-        tvGender = findViewById(R.id.txt_gender)
-        tvEmail = findViewById(R.id.txt_email)
+        firebaseAuth = FirebaseAuth.getInstance()
+        val userid = firebaseAuth.currentUser?.uid
+
+        ShowName = findViewById(R.id.txt_nama)
+        ShowPhone = findViewById(R.id.txt_nomor)
+        ShowGender = findViewById(R.id.txt_gender)
+        ShowEmail = findViewById(R.id.txt_email)
         statuss = findViewById(R.id.statuss)
 
-        val userId = FirebaseAuth.getInstance().currentUser!!.uid
-        fireStoreDatabase.collection("users").document(userId)
-            .get()
-            .addOnSuccessListener {
-               val name = it.data?.get("name")?.toString()
-                val nomor = it.data?.get("phone")?.toString()
-                val gender = it.data?.get("gender")?.toString()
-                val email = it.data?.get("email")?.toString()
+        val docRef = db.collection("users").document(userid!!);
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document!=null) {
+                    val name = document.getString("name")
+                    val phone = document.getString("phone")
+                    val gender = document.getString("gender")
+                    val email = document.getString("email")
 
-                statuss.text = "data didapatkan"
-
-                tvName.text = name
-                tvNomor.text = nomor
-                tvGender.text = gender
-                tvEmail.text = email
-
+                    ShowName.text = "nama = $name"
+                    ShowPhone.text = "phone = $phone"
+                    ShowGender.text = "gender = $gender"
+                    ShowEmail.text = "email = $email"
+                    statuss.text = "Succes dapat data user $userid"
                 }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-                statuss.text = "data tidak ditemukan"
             }
+            .addOnFailureListener{
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+                statuss.text = "gagal membaca data user $userid"
+            }
+
+
     }
 }
