@@ -1,27 +1,53 @@
 package com.compare.compareapp
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.compare.compareapp.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
-//    lateinit var binding: ActivityMainBinding
-private lateinit var tombol : Button
+    private lateinit var binding : ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        replaceFragment(update_produk())
 
-        tombol = findViewById(R.id.btnReadData)
-        tombol.setOnClickListener{
-            val intent = Intent(this, UserProfile::class.java)
-            startActivity(intent)
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.update_produk -> replaceFragment(update_produk())
+                R.id.riwayat -> replaceFragment(riwayat())
+                R.id.profile -> replaceFragment(user_admin())
+                else ->{
+
+                }
+            }
+
+            true
         }
+    }
 
+    private fun replaceFragment(fragment: riwayat){
+
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout,fragment)
+        fragmentTransaction.commit()
+    }
+    private fun replaceFragment(fragment: update_produk) {
+
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.commit()
+    }
+
+    private fun replaceFragment(fragment: user_admin) {
+
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.commit()
     }
 }
