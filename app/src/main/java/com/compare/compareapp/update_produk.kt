@@ -21,6 +21,7 @@ class update_produk : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val floatingfab1 = view.findViewById<FloatingActionButton>(R.id.btn_fab)
 
         floatingfab1.setOnClickListener {
