@@ -1,10 +1,8 @@
 package com.compare.compareapp
 
-import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,15 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.compare.compareapp.databinding.ActivityUploadBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import java.text.DateFormat
-import java.util.Calendar
 
 
 class uploadActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUploadBinding
-    var imageURL: String? = null
     var uri: Uri? = null
+    var foto : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,15 +40,14 @@ class uploadActivity : AppCompatActivity() {
             activityResultLauncher.launch(photoPicker)
         }
         binding.saveButton.setOnClickListener{
-            val menu = binding.uploadJudulMenu.text.toString()
-            val harga = binding.uploadHargaMenu.text.toString()
-            uploadData(menu, harga)
             saveData()
         }
     }
     private fun saveData(){
         val storageReference = FirebaseStorage.getInstance().reference.child("Task Images")
             .child(uri!!.lastPathSegment!!)
+        val menu = binding.uploadJudulMenu.text.toString()
+        val harga = binding.uploadHargaMenu.text.toString()
 
         val builder = AlertDialog.Builder(this@uploadActivity)
         builder.setCancelable(false)
@@ -64,25 +59,30 @@ class uploadActivity : AppCompatActivity() {
             val uriTask = taskSnapshot.storage.downloadUrl
             while (!uriTask.isComplete);
             val urlImage = uriTask.result
-            imageURL = urlImage.toString()
+            foto = urlImage.toString()
             dialog.dismiss()
+            uploadData(menu, harga, foto)
         }.addOnFailureListener{
             dialog.dismiss()
         }
     }
-    private fun uploadData(menu: String, harga : String){
+    private fun uploadData(menu: String, harga : String, foto : String){
         val db = FirebaseFirestore.getInstance()
         val listMenu = hashMapOf<String, Any>(
             "Nama Menu" to menu,
             "Harga" to harga,
+            "Foto" to foto
         )
         db.collection("Menu")
             .add(listMenu)
             .addOnSuccessListener { documentReference ->
-                Toast.makeText(this@uploadActivity, "Success", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
             }
             .addOnFailureListener { exception ->
-                Toast.makeText(this@uploadActivity, "Failed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
             }
     }
 }
