@@ -69,7 +69,7 @@ class uploadActivity : AppCompatActivity() {
     private fun uploadData(menu: String, harga : String, foto : String){
         val db = FirebaseFirestore.getInstance()
         val listMenu = hashMapOf<String, Any>(
-            "Nama Menu" to menu,
+            "namaMenu" to menu,
             "Harga" to harga,
             "Foto" to foto
         )
