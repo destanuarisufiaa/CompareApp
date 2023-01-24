@@ -6,14 +6,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.compare.compareapp.databinding.FragmentUpdateProdukBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.*
+import kotlinx.android.synthetic.main.fragment_update_produk.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class update_produk : Fragment() {
 
     private lateinit var binding: FragmentUpdateProdukBinding
+    private lateinit var MenuList : MutableList<Menu>
+    private lateinit var adapter : MyAdapter
+    private lateinit var searchView: SearchView
 
 
     override fun onCreateView(
@@ -33,7 +41,6 @@ class update_produk : Fragment() {
 
         fetchData()
 
-
         val floatingfab1 = view.findViewById<FloatingActionButton>(R.id.btn_fab)
 
         floatingfab1.setOnClickListener {
@@ -49,12 +56,12 @@ class update_produk : Fragment() {
             .addOnSuccessListener { documents ->
                 for (document in documents){
                     val menu = documents.toObjects(Menu::class.java)
-                    binding.recyclerView.adapter = MyAdapter (this, menu)
+                    binding.recyclerView.adapter = context?.let { MyAdapter (it, menu) }
                 }
             }
             .addOnFailureListener {
 
             }
-
     }
+
 }

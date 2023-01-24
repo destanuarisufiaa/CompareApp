@@ -33,8 +33,9 @@
                 android:textColor="@color/black"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_width="320dp"
+                android:layout_height="320dp"
+                android:layout_gravity="center"
                 android:src="@drawable/uploadimg"
                 android:id="@+id/uploadImage"
                 android:scaleType="fitXY"/>
