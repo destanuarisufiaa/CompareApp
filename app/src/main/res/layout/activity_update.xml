@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".uploadActivity">
-    
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:layout_marginStart="20dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp">
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,33 +27,23 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Upload Data Produk"
+                android:text="Update Data Produk"
                 android:textSize="30sp"
                 android:textAlignment="center"
                 android:textColor="@color/black"/>
 
             <ImageView
-                android:layout_width="240dp"
-                android:layout_height="240dp"
+                android:layout_width="320dp"
+                android:layout_height="320dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
                 android:src="@drawable/uploadimg"
-                android:id="@+id/uploadImage"
+                android:id="@+id/updateImage"
                 android:scaleType="fitXY"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:text="NB : PASTIKAN FOTO PRODUK BERADA DI TENGAH FRAME"
-                android:textSize="10dp"
-                android:textAlignment="center"
-                android:textColor="#F10707" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:id="@+id/uploadJudulMenu"
+                android:id="@+id/updateJudulMenu"
                 android:layout_marginTop="20dp"
                 android:padding="16dp"
                 android:hint="enter topic name"
@@ -63,36 +53,25 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:id="@+id/uploadHargaMenu"
+                android:id="@+id/updateHargaMenu"
                 android:layout_marginTop="20dp"
                 android:padding="16dp"
-                android:inputType="number"
                 android:hint="enter price"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/black"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/uploadDesc"
-                android:layout_marginTop="20dp"
-                android:padding="16dp"
-                android:hint="enter deskripsi"
-                android:gravity="start|center_vertical"
-                android:textColor="@color/black"/>
-            
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="SAVE"
-                android:id="@+id/saveButton"
+                android:id="@+id/updateButton"
                 android:textSize="18sp"
                 android:layout_marginTop="20dp"
                 app:cornerRadius = "20dp"/>
 
         </LinearLayout>
 
-        
+
     </androidx.cardview.widget.CardView>
 
 </ScrollView>
