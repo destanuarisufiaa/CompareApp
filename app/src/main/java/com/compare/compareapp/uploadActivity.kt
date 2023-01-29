@@ -1,6 +1,7 @@
 package com.compare.compareapp
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -29,7 +30,6 @@ import java.util.Date
 class uploadActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUploadBinding
-    var uri: Uri? = null
     var foto : String = ""
     var menu : String = ""
     var harga : String = ""
@@ -51,18 +51,6 @@ class uploadActivity : AppCompatActivity() {
         }else{
             uploadImage.isEnabled = true
         }
-
-//        val activityResultLauncher = registerForActivityResult<Intent, ActivityResult>(
-//            ActivityResultContracts.StartActivityForResult()
-//        ) { result ->
-//            if (result.resultCode == RESULT_OK) {
-//                val data = result.data
-//                uri = data!!.data
-//                binding.uploadImage.setImageURI(uri)
-//            } else {
-//                Toast.makeText(this@uploadActivity, "No Image Selected", Toast.LENGTH_SHORT).show()
-//            }
-//        }
 
         binding.uploadImage.setOnClickListener {
             selectImage()
@@ -120,6 +108,11 @@ class uploadActivity : AppCompatActivity() {
     }
 
     private fun uploadData(menu: String, harga : String, desc : String, foto: String){
+
+        val menu = binding.uploadJudulMenu.text.toString()
+        val harga = binding.uploadHargaMenu.text.toString()
+        val desc = binding.uploadDesc.text.toString()
+
         uploadImage.isDrawingCacheEnabled = true
         uploadImage.buildDrawingCache()
         val bitmap = (uploadImage.drawable as BitmapDrawable).bitmap
@@ -128,6 +121,12 @@ class uploadActivity : AppCompatActivity() {
         val data = baos.toByteArray()
 
         //UPLOAD
+        val builder = AlertDialog.Builder(this@uploadActivity)
+        builder.setCancelable(false)
+        builder.setView(R.layout.progress_layout)
+        val dialog = builder.create()
+        dialog.show()
+
         val storage = FirebaseStorage.getInstance()
         val reference = storage.reference.child("Task Images")
         var uploadTask = reference.putBytes(data)
@@ -141,9 +140,11 @@ class uploadActivity : AppCompatActivity() {
                        saveData(menu, harga, desc, foto)
                     }
                 }else{
+                    dialog.dismiss()
                     Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
                 }
             }else{
+                dialog.dismiss()
                 Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
             }
         }
@@ -167,5 +168,6 @@ class uploadActivity : AppCompatActivity() {
             .addOnFailureListener { exception ->
                 Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
             }
+
     }
 }
