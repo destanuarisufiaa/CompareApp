@@ -132,7 +132,7 @@ class uploadActivity : AppCompatActivity() {
 //        val currentDate : String = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
 
         val storage = FirebaseStorage.getInstance()
-        val reference = storage.reference.child("Task Images")
+        val reference = storage.getReference("images").child("IMG"+ Date().time +".jpeg")
         var uploadTask = reference.putBytes(data)
         uploadTask.addOnFailureListener {
             Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()

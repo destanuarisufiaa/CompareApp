@@ -14,7 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class MyAdapter(private val context: Context, private var MenuList: MutableList<Menu>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
-    var docID:String="ini id"
+//    var docID:String="ini id"
 
     class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val judulMenu : TextView = itemView.findViewById(R.id.recTittle)
@@ -22,15 +22,15 @@ class MyAdapter(private val context: Context, private var MenuList: MutableList<
         val Desc : TextView =  itemView.findViewById(R.id.recDesc)
         val fotoMenu : ImageView = itemView.findViewById(R.id.recImage)
         val card : CardView = itemView.findViewById(R.id.recCard)
-        val documentID : TextView = itemView.findViewById(R.id.docID)
+//        val documentID : TextView = itemView.findViewById(R.id.docID)
 
     }
 
 
-    override fun getItemId(position: Int): Long {
-        return super.getItemId(position)
-        docID = getItemId(position).toString()
-    }
+//    override fun getItemId(position: Int): Long {
+//        return super.getItemId(position)
+//        docID = getItemId(position).toString()
+//    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
         val menuView =
@@ -43,7 +43,7 @@ class MyAdapter(private val context: Context, private var MenuList: MutableList<
         holder.judulMenu.text = MenuList[position].namaMenu
         holder.HargaMenu.text = MenuList[position].Harga
         holder.Desc.text = MenuList[position].Desc
-        holder.documentID.text = getItemId(position).toString()
+//        holder.documentID.text = getItemId(position).toString()
 
 
         holder.card.setOnClickListener {
@@ -52,7 +52,7 @@ class MyAdapter(private val context: Context, private var MenuList: MutableList<
             intent.putExtra("namaMenu", MenuList[holder.adapterPosition].namaMenu)
             intent.putExtra("Harga", MenuList[holder.adapterPosition].Harga)
             intent.putExtra("Desc", MenuList[holder.adapterPosition].Desc)
-            intent.putExtra("docID", MenuList[holder.adapterPosition].id)
+//            intent.putExtra("docID", MenuList[holder.adapterPosition].id)
 
             context.startActivity(intent)
         }

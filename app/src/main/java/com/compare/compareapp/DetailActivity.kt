@@ -21,8 +21,6 @@ import kotlinx.android.synthetic.main.recycler_item.*
 class DetailActivity : AppCompatActivity() {
 
     var imageURL = ""
-    var id = ""
-    lateinit var db : FirebaseFirestore
     private lateinit var detailTittle : TextView
     private lateinit var detailHarga : TextView
     private lateinit var detailDesc : TextView
@@ -54,7 +52,7 @@ class DetailActivity : AppCompatActivity() {
             Glide.with(this).load(bundle.getString("Image")).into(binding.detailImage)
         }
         deleteButton.setOnClickListener {
-            deleteData(id)
+//            deleteData(id)
         }
         editButton.setOnClickListener {
             val intent = Intent(this,UpdateActivity::class.java)
@@ -64,14 +62,5 @@ class DetailActivity : AppCompatActivity() {
                 .putExtra("Foto", imageURL)
             startActivity(intent)
         }
-    }
-    private fun deleteData (id : String){
-        db.collection("Menu").document(id)
-            .delete()
-            .addOnCompleteListener { task ->
-                if (!task.isSuccessful){
-                    Toast.makeText(this, "Data Gagal Di Hapus!", Toast.LENGTH_SHORT).show()
-                }
-            }
     }
 }
