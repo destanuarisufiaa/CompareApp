@@ -33,12 +33,21 @@
                 android:textColor="@color/black"/>
 
             <ImageView
-                android:layout_width="320dp"
-                android:layout_height="320dp"
+                android:layout_width="240dp"
+                android:layout_height="240dp"
                 android:layout_gravity="center"
                 android:src="@drawable/uploadimg"
                 android:id="@+id/updateImage"
                 android:scaleType="fitXY"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="NB : PASTIKAN FOTO PRODUK BERADA DI TENGAH FRAME"
+                android:textSize="10dp"
+                android:textAlignment="center"
+                android:textColor="#F10707" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -57,6 +66,16 @@
                 android:layout_marginTop="20dp"
                 android:padding="16dp"
                 android:hint="enter price"
+                android:gravity="start|center_vertical"
+                android:textColor="@color/black"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/updateDesc"
+                android:layout_marginTop="20dp"
+                android:padding="16dp"
+                android:hint="enter deskripsi"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/black"/>
 

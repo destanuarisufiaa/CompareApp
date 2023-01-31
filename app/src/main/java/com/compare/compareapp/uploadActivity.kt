@@ -24,6 +24,8 @@ import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_upload.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.text.DateFormat
+import java.util.Calendar
 import java.util.Date
 
 
@@ -127,6 +129,8 @@ class uploadActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
 
+//        val currentDate : String = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
+
         val storage = FirebaseStorage.getInstance()
         val reference = storage.reference.child("Task Images")
         var uploadTask = reference.putBytes(data)
@@ -157,6 +161,7 @@ class uploadActivity : AppCompatActivity() {
             "Foto" to foto,
             "Desc" to desc,
         )
+
         db.collection("Menu")
             .add(listMenu)
             .addOnSuccessListener { documentReference ->

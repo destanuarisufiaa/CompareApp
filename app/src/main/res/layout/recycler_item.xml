@@ -84,6 +84,21 @@
             android:textColor="@color/red"
             android:textSize="15dp" />
 
+        <TextView
+            android:id="@+id/docID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="19dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="114dp"
+            android:layout_marginRight="83dp"
+            android:layout_toEndOf="@+id/recImage"
+            android:text="ini id"
+            android:textColor="@color/black"
+            android:visibility="visible"/>
+
     </RelativeLayout>
 
 

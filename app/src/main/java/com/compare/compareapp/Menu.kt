@@ -8,9 +8,10 @@ data class Menu (
     val Harga: String? = null,
     val Desc : String? = null,
     val Foto: String? = null,
-//    val strId : String = "0"
-
+    val id : String
+//    val docID : String? = null
 )
+
 
 
 

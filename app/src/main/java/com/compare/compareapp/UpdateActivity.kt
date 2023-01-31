@@ -26,6 +26,7 @@ class UpdateActivity : AppCompatActivity() {
     private lateinit var updateButton: Button
     private lateinit var updateJudulMenu : EditText
     private lateinit var updateHargaMenu : EditText
+    private lateinit var updateDesc : EditText
     private lateinit var foto : String
     private lateinit var key : String
     private lateinit var oldImageURL : String
@@ -40,6 +41,7 @@ class UpdateActivity : AppCompatActivity() {
         updateButton = findViewById(R.id.updateButton)
         updateJudulMenu = findViewById(R.id.updateJudulMenu)
         updateHargaMenu = findViewById(R.id.updateHargaMenu)
+        updateDesc = findViewById(R.id.updateDesc)
         updateImage = findViewById(R.id.updateImage)
 
         val activityResultLauncher = registerForActivityResult<Intent, ActivityResult>(
@@ -57,6 +59,7 @@ class UpdateActivity : AppCompatActivity() {
             Glide.with(this).load(bundle.getString("Image")).into(updateImage)
             updateJudulMenu.setText(bundle.getString("namaMenu"))
             updateHargaMenu.setText(bundle.getString("Harga"))
+            updateDesc.setText(bundle.getString("Desc"))
             key = bundle.getString("Key")!!
             oldImageURL = bundle.getString("Image")!!
         }
@@ -68,7 +71,7 @@ class UpdateActivity : AppCompatActivity() {
             activityResultLauncher.launch(photoPicker)
         }
         updateButton.setOnClickListener{
-//            pending
+            saveData()
             val intent = Intent(this,update_produk::class.java)
             startActivity(intent)
         }
@@ -94,6 +97,7 @@ class UpdateActivity : AppCompatActivity() {
             foto = urlImage.toString()
             dialog.dismiss()
             updateData(menu, harga, foto)
+            dialog.dismiss()
         }.addOnFailureListener{
             dialog.dismiss()
         }

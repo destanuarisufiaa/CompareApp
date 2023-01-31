@@ -19,9 +19,6 @@ import kotlin.collections.ArrayList
 class update_produk : Fragment() {
 
     private lateinit var binding: FragmentUpdateProdukBinding
-    private lateinit var MenuList : MutableList<Menu>
-    private lateinit var adapter : MyAdapter
-    private lateinit var searchView: SearchView
 
 
     override fun onCreateView(
@@ -56,8 +53,10 @@ class update_produk : Fragment() {
             .addOnSuccessListener { documents ->
                 for (document in documents){
                     val menu = documents.toObjects(Menu::class.java)
+//                    val docID = document.id
                     binding.recyclerView.adapter = context?.let { MyAdapter (it, menu) }
                 }
+
             }
             .addOnFailureListener {
 

@@ -52,6 +52,17 @@
         android:textColor="@color/black"
         android:textSize="18dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="20dp"
+        android:text="Deskripsi"
+        android:layout_gravity="center"
+        android:id="@+id/IDdoc"
+        android:textColor="@color/black"
+        android:textSize="18dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
