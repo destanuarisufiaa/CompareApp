@@ -1,23 +1,8 @@
 package com.compare.compareapp
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.compare.compareapp.databinding.ActivityMainBinding
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
-import org.w3c.dom.Document
 
 
 class MainActivity : AppCompatActivity() {

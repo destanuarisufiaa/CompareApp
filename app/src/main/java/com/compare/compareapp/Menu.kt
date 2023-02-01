@@ -1,15 +1,20 @@
 package com.compare.compareapp
 
-data class Menu (
+import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
+import com.google.firebase.firestore.DocumentId
+
+data class Menu(
 
     val namaMenu: String? = null,
     val Harga: String? = null,
-    val Desc : String? = null,
+    val Desc: String? = null,
     val Foto: String? = null,
-//    val id : String
-//    val docID : String? = null
+    @DocumentId
+    val docID: String = "",
+
+//    @DocumentId
+//    val docuID:DocumentId,
+//    val docID:String? = docuID.toString()
 )
-
-
 
 

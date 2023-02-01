@@ -12,12 +12,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.compare.compareapp.databinding.ActivityUploadBinding
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -58,7 +57,7 @@ class uploadActivity : AppCompatActivity() {
             selectImage()
         }
         binding.saveButton.setOnClickListener {
-            uploadData(menu, harga, desc, foto)
+            uploadData(menu, harga, desc, foto, )
         }
     }
 
@@ -109,7 +108,7 @@ class uploadActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadData(menu: String, harga : String, desc : String, foto: String){
+    private fun uploadData(menu: String, harga : String, desc : String, foto: String, ){
 
         val menu = binding.uploadJudulMenu.text.toString()
         val harga = binding.uploadHargaMenu.text.toString()
@@ -141,7 +140,7 @@ class uploadActivity : AppCompatActivity() {
                 if(taskSnapshot.metadata!!.reference !=null){
                     taskSnapshot.metadata!!.reference!!.downloadUrl.addOnCompleteListener {
                        var foto = it.getResult().toString()
-                       saveData(menu, harga, desc, foto)
+                       saveData(menu, harga, desc, foto,)
                     }
                 }else{
                     dialog.dismiss()
@@ -153,7 +152,7 @@ class uploadActivity : AppCompatActivity() {
             }
         }
     }
-    private fun saveData(menu: String, harga : String, desc : String,  foto : String){
+    private fun saveData(menu: String, harga : String, desc : String,  foto : String,){
         val db = FirebaseFirestore.getInstance()
         val listMenu = hashMapOf<String, Any>(
             "namaMenu" to menu,
