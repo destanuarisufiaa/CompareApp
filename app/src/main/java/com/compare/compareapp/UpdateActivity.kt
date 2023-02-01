@@ -1,126 +1,218 @@
 package com.compare.compareapp
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
+import com.compare.compareapp.databinding.ActivityDetailBinding
+import com.compare.compareapp.databinding.ActivityUpdateBinding
+import com.github.clans.fab.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirestoreRegistrar
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.activity_update.*
+import kotlinx.android.synthetic.main.activity_upload.*
 import org.checkerframework.checker.interning.qual.InternMethod
+import org.w3c.dom.Text
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.util.*
 
 class UpdateActivity : AppCompatActivity() {
 
-    private lateinit var updateImage : ImageView
-    private lateinit var updateButton: Button
-    private lateinit var updateJudulMenu : EditText
-    private lateinit var updateHargaMenu : EditText
-    private lateinit var updateDesc : EditText
-    private lateinit var foto : String
-    private lateinit var key : String
-    private lateinit var oldImageURL : String
-    private lateinit var uri: Uri
-    lateinit var storageReference : StorageReference
+    private lateinit var updateeJudul : EditText
+    private lateinit var updateeHarga : EditText
+    private lateinit var updateeDesc : EditText
+    private lateinit var updateeImage : ImageView
+    private lateinit var buttonUpdate : Button
+    private lateinit var UID : TextView
+    private lateinit var binding: ActivityUpdateBinding
+    var imageURL = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_update)
+        binding = ActivityUpdateBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        updateButton = findViewById(R.id.updateButton)
-        updateJudulMenu = findViewById(R.id.updateJudulMenu)
-        updateHargaMenu = findViewById(R.id.updateHargaMenu)
-        updateDesc = findViewById(R.id.updateDesc)
-        updateImage = findViewById(R.id.updateImage)
+        //cek permission upload gambar
+        updateImage.isEnabled = true
 
-        val activityResultLauncher = registerForActivityResult<Intent, ActivityResult>(
-            ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val data = result.data
-                uri = data!!.data!!
-                updateImage.setImageURI(uri)
-            }else {
-                Toast.makeText(this, "No Image Selected", Toast.LENGTH_SHORT).show()
-            }
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            )!= PackageManager.PERMISSION_GRANTED
+        ){
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 100)
+        }else{
+            updateImage.isEnabled = true
         }
-        val bundle = intent.extras
-        if (bundle !=null) {
-            Glide.with(this).load(bundle.getString("Image")).into(updateImage)
-            updateJudulMenu.setText(bundle.getString("namaMenu"))
-            updateHargaMenu.setText(bundle.getString("Harga"))
-            updateDesc.setText(bundle.getString("Desc"))
-            key = bundle.getString("Key")!!
-            oldImageURL = bundle.getString("Image")!!
-        }
-        FirebaseFirestore.getInstance().collection("Menu")
 
         updateImage.setOnClickListener {
-            val photoPicker = Intent(Intent.ACTION_PICK)
-            photoPicker.type = "image/*"
-            activityResultLauncher.launch(photoPicker)
+            selectImage()
         }
-        updateButton.setOnClickListener{
-            saveData()
-            val intent = Intent(this,update_produk::class.java)
-            startActivity(intent)
+
+        //inisialisasi layout
+        updateeJudul = findViewById(R.id.updateJudulMenu)
+        updateeHarga = findViewById(R.id.updateHargaMenu)
+        updateeDesc = findViewById(R.id.updateDesc)
+        updateeImage = findViewById(R.id.updateImage)
+        buttonUpdate = findViewById(R.id.updateButton)
+        UID = findViewById(R.id.UID)
+
+        //mengambil deskripsi menu yang akan diedit dari detail
+        val bundle = intent.extras
+        if (bundle != null) {
+            val judulupdate = bundle!!.getString("namaMenu")
+            val hargaupdate = bundle!!.getString("Harga")
+            val deskripsi = bundle!!.getString("Desc")
+            val docID = bundle!!.getString("docID")
+
+            //memasukkan deskripsi menu ke dalam edittext
+            UID.text = docID
+            updateeJudul.setText(judulupdate)
+            updateeHarga.setText(hargaupdate)
+            updateeDesc.setText(deskripsi)
+            imageURL = bundle.getString("Foto")!!
+            Glide.with(this).load(bundle?.getString("Foto")).into(updateeImage)
         }
+
+        buttonUpdate.setOnClickListener {
+            uploadData()
+        }
+
     }
 
-    private fun saveData (){
-        val menu = updateJudulMenu.text.toString()
-        val harga = updateHargaMenu.text.toString()
+    private fun selectImage() {
+        val items = arrayOf<CharSequence>("Take Photo", "Choose from Library", "Cancel")
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.app_name))
+        builder.setIcon(R.mipmap.ic_launcher)
+        builder.setItems(items) { dialog: DialogInterface, item: Int ->
+            if (items[item] == "Take Photo") {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, 10)
+            } else if (items[item] == "Choose from Library") {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(Intent.createChooser(intent, "Select Image"), 20)
+            } else if (items[item] == "Cancel") {
+                dialog.dismiss()
+            }
+        }
+        builder.show()
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("Task Images")
-            .child(uri!!.lastPathSegment!!)
+    }
 
-        val builder = AlertDialog.Builder(this@UpdateActivity)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 20 && resultCode == RESULT_OK && data != null) {
+            val path : Uri? = data.data
+            val thread = Thread {
+                try {
+                    val inputStream = contentResolver.openInputStream(path!!)
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    updateImage.post { updateImage.setImageBitmap(bitmap) }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+            thread.start()
+        }
+
+
+        if (requestCode == 10 && resultCode == RESULT_OK) {
+            val extras = data!!.extras
+            val thread = Thread {
+                val bitmap = extras!!["data"] as Bitmap?
+                updateImage.post { updateImage.setImageBitmap(bitmap) }
+            }
+            thread.start()
+        }
+    }
+    private fun uploadData(){
+        val edMenu = updateeJudul.text.toString().trim()
+        val edHarga = updateeHarga.text.toString().trim()
+        val edDesc = updateeDesc.text.toString().trim()
+
+        updateImage.isDrawingCacheEnabled = true
+        updateImage.buildDrawingCache()
+        val bitmap = (updateImage.drawable as BitmapDrawable).bitmap
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        //UPLOAD
+        val builder = AlertDialog.Builder(this)
         builder.setCancelable(false)
         builder.setView(R.layout.progress_layout)
         val dialog = builder.create()
         dialog.show()
 
-        storageReference.putFile(uri!!).addOnSuccessListener { taskSnapshot ->
-            val uriTask = taskSnapshot.storage.downloadUrl
-            while (!uriTask.isComplete);
-            val urlImage = uriTask.result
-            foto = urlImage.toString()
-            dialog.dismiss()
-            updateData(menu, harga, foto)
-            dialog.dismiss()
-        }.addOnFailureListener{
-            dialog.dismiss()
+//        val currentDate : String = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
+        val storage = FirebaseStorage.getInstance()
+        val reference = storage.getReference("images").child("IMG"+ Date().time +".jpeg")
+        var uploadTask = reference.putBytes(data)
+        uploadTask.addOnFailureListener {
+            Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
+        }.addOnSuccessListener { taskSnapshot ->
+            if(taskSnapshot.metadata !=null){
+                if(taskSnapshot.metadata!!.reference !=null){
+                    taskSnapshot.metadata!!.reference!!.downloadUrl.addOnCompleteListener {
+                        val bundle = intent.extras
+                        val docID = bundle!!.getString("docID").toString().trim()
+                        var editfoto = it.getResult().toString()
+                        val dbupdate = FirebaseFirestore.getInstance()
+                        val updateMenu = hashMapOf<String, Any>(
+                            "namaMenu" to edMenu,
+                            "Harga" to edHarga,
+                            "Foto" to editfoto,
+                            "Desc" to edDesc,
+                        )
+                        dbupdate.collection("Menu").document("$docID").update(updateMenu)
+                            .addOnSuccessListener { documentReference ->
+                                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this, MainActivity::class.java)
+                                startActivity(intent)
+                            }
+                            .addOnFailureListener { exception ->
+                                dialog.dismiss()
+                                Toast.makeText(this, "Failed!, gagal $docID", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                }else{
+                    dialog.dismiss()
+                    Toast.makeText(this, "Failed 1!", Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                dialog.dismiss()
+                Toast.makeText(this, "Failed 2!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
-    private fun updateData(menu: String, harga : String, foto : String){
-
-        val db = FirebaseFirestore.getInstance()
-        val listMenu = hashMapOf<String, Any>(
-            "namaMenu" to menu,
-            "Harga" to harga,
-            "Foto" to foto,
-        )
-        db.collection("Menu")
-            .add(listMenu)
-            .addOnSuccessListener { documentReference ->
-                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
-            }
     }
 
-}
+
