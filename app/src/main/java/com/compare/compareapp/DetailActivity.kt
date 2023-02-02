@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.recycler_item.*
 class DetailActivity : AppCompatActivity() {
 
     var imageURL = ""
-    lateinit var db : FirebaseFirestore
     private lateinit var detailTittle : TextView
     private lateinit var detailHarga : TextView
     private lateinit var detailDesc : TextView
@@ -49,7 +48,6 @@ class DetailActivity : AppCompatActivity() {
 
         val bundle = intent.extras
         if (bundle !=null){
-            val iddokumen = IDdoc.text
             binding.detailTittle.text = bundle.getString("namaMenu")
             binding.detailHarga.text = bundle.getString("Harga")
             binding.detailDesc.text = bundle.getString("Desc")
@@ -58,7 +56,19 @@ class DetailActivity : AppCompatActivity() {
             Glide.with(this).load(bundle.getString("Image")).into(binding.detailImage)
         }
         deleteButton.setOnClickListener {
-            deleteData()
+            val bundle = intent.extras
+            val docID = bundle!!.getString("docID").toString().trim()
+            val db = FirebaseFirestore.getInstance()
+            db.collection("Menu").document("$docID")
+                .delete()
+                .addOnSuccessListener {
+                    FirebaseStorage.getInstance().getReferenceFromUrl(imageURL).delete()
+                    val intent = Intent(this,MainActivity::class.java)
+                    startActivity(intent)
+                    Toast.makeText(this, "Data Berhasil Di Hapus!", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Data Gagal Di Hapus!", Toast.LENGTH_SHORT).show()
+                }
         }
         editButton.setOnClickListener {
             val intent = Intent(this,UpdateActivity::class.java)
@@ -70,24 +80,4 @@ class DetailActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    private fun deleteData (){
-//        val bundle = intent.extras
-//        if (bundle !=null){
-//            val id = bundle.getString("docID")
-        val id = IDdoc.text
-        val docID = id.toString()
-        db.collection("Menu").document("$docID")
-            .delete()
-            .addOnCompleteListener {
-                Toast.makeText(this, "Data Berhasil Di Hapus!", Toast.LENGTH_SHORT).show()
-            }
-//                .addOnCompleteListener { task ->
-//                    if (task.isSuccessful && !task.getResult().toString().isEmpty()){
-//                    val documentSnapshot : DocumentSnapshot = task.getResult()
-//                        Toast.makeText(this, "Data Berhasil Di Hapus!", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//        }
-
-    }
-    }
+}

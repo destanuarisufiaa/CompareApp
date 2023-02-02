@@ -15,8 +15,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class MyAdapter(private val context: Context, private var MenuList: MutableList<Menu>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
-//    value docID:String="ini id"
-
     class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
         val judulMenu : TextView = itemView.findViewById(R.id.recTittle)
@@ -28,11 +26,6 @@ class MyAdapter(private val context: Context, private var MenuList: MutableList<
 
     }
 
-
-//    override fun getItemId(position: Int): Long {
-//        return super.getItemId(position)
-//        docID = getItemId(position).toString()
-//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 
@@ -69,8 +62,4 @@ class MyAdapter(private val context: Context, private var MenuList: MutableList<
        return MenuList.size
     }
 
-//    fun searchDataList(searchList :List<Menu>){
-//        MenuList = searchList as MutableList<Menu>
-//        notifyDataSetChanged()
-//    }
 }
