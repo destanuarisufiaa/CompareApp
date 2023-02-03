@@ -168,6 +168,7 @@ class UpdateActivity : AppCompatActivity() {
             if(taskSnapshot.metadata !=null){
                 if(taskSnapshot.metadata!!.reference !=null){
                     taskSnapshot.metadata!!.reference!!.downloadUrl.addOnCompleteListener {
+                        FirebaseStorage.getInstance().getReferenceFromUrl(imageURL).delete()
                         val bundle = intent.extras
                         val docID = bundle!!.getString("docID").toString().trim()
                         var editfoto = it.getResult().toString()
