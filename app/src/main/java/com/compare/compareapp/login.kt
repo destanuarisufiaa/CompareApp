@@ -17,7 +17,13 @@ class login : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         auth = FirebaseAuth.getInstance()
+
+        binding.GantiPassword.setOnClickListener {
+            val intent = Intent(this, ForgotPassword::class.java)
+            startActivity(intent)
+        }
 
         binding.tvToRegister.setOnClickListener {
             val intent = Intent(this, register::class.java)
@@ -56,11 +62,23 @@ class login : AppCompatActivity() {
             .addOnCompleteListener(this){
                 if (it.isSuccessful){
                     Toast.makeText(this, "Selamat datang $email", Toast.LENGTH_SHORT).show()
-                    val intent = Intent (this, MainActivity::class.java)
+                    val intent = Intent (this, MainActivity::class.java).also {
+                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
                     startActivity(intent)
                 }else{
                     Toast.makeText(this,"${it.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (auth.currentUser != null){
+            val intent = Intent (this, MainActivity::class.java).also {
+                it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(intent)
+        }
     }
 }

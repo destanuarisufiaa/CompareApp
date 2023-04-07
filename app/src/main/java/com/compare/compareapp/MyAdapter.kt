@@ -28,8 +28,6 @@ class MyAdapter(private val context: Context, private var MenuList: MutableList<
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-
-
         val menuView =
             LayoutInflater.from(parent.context).inflate(R.layout.recycler_item, parent, false)
         return MyViewHolder(menuView)

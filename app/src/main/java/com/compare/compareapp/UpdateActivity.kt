@@ -200,6 +200,6 @@ class UpdateActivity : AppCompatActivity() {
             }
         }
     }
-    }
+}
 
 

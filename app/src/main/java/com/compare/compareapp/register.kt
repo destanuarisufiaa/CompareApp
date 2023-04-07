@@ -2,6 +2,8 @@ package com.compare.compareapp
 
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +15,10 @@ import android.widget.Toast
 import com.compare.compareapp.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_register.*
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 class register : AppCompatActivity() {
 
@@ -37,6 +43,12 @@ class register : AppCompatActivity() {
         }
 
         binding.btnRegister.setOnClickListener {
+
+            val bitmap = (fotobawaan.getDrawable() as BitmapDrawable).getBitmap()
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+            val data = baos.toByteArray()
+
             val email = binding.edtEmailRegister.text.toString()
             val password = binding.edtPasswordRegister.text.toString()
             val nama = binding.edtNamaRegister.text.toString()
@@ -75,13 +87,31 @@ class register : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            registerFirebase(email,password, nama, phone, hasilGender)
+            val storage = FirebaseStorage.getInstance()
+            val reference = storage.getReference("images_user").child("IMG"+ Date().time +".jpeg")
+            var uploadTask = reference.putBytes(data)
+            uploadTask.addOnFailureListener {
+                Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
+            }.addOnSuccessListener { taskSnapshot ->
+                if(taskSnapshot.metadata !=null){
+                    if(taskSnapshot.metadata!!.reference !=null){
+                        taskSnapshot.metadata!!.reference!!.downloadUrl.addOnCompleteListener {
+                            var foto = it.getResult().toString()
+                            registerFirebase(email,password, nama, phone, hasilGender, foto)
+                        }
+                    }else{
+                        Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
+                    }
+                }else{
+                    Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
 
     }
 
-    private fun registerFirebase(email: String, password: String, nama: String, phone: String, hasilGender: String) {
+    private fun registerFirebase(email: String, password: String, nama: String, phone: String, hasilGender: String, foto : String) {
         auth.createUserWithEmailAndPassword(email,password)
             .addOnCompleteListener(this){
                 if (it.isSuccessful){
@@ -91,9 +121,10 @@ class register : AppCompatActivity() {
                         "name" to nama,
                         "phone" to phone,
                         "gender" to hasilGender,
+                        "foto" to foto,
                     )
                     val uid = auth.currentUser?.uid
-                    firestore.collection("users").document(uid!!)
+                    firestore.collection("admin").document(uid!!).collection("Profil").document(uid!!)
                         .set(user)
                         .addOnSuccessListener { documentReference ->
                             Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
@@ -102,12 +133,12 @@ class register : AppCompatActivity() {
                             Log.w(ContentValues.TAG, "Error adding document $exception")
                         }
 
+                    auth.signOut()
                     val intent = Intent (this, login::class.java)
                     startActivity(intent)
                 }else{
                     Toast.makeText(this,"${it.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
-
     }
 }

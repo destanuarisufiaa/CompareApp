@@ -52,7 +52,6 @@ class update_produk : Fragment() {
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents){
-//                    val docID = document.id
                     val menu = documents.toObjects(Menu::class.java)
                     binding.recyclerView.adapter = context?.let { MyAdapter (it, menu) }
                 }
