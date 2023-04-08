@@ -1,5 +1,6 @@
 package com.compare.compareapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.compare.compareapp.databinding.ActivityMainBinding
@@ -14,7 +15,12 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(update_produk())
+        val bundle = intent.getStringExtra("direct")
+        if (bundle == "true")
+        {
+            replaceFragment(riwayat())
+        }
+        else replaceFragment(update_produk()) //INILO SUMBER E
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){

@@ -40,6 +40,7 @@ class RiwayatAdapter(private val context: Context, private var ListPesanan: Muta
         holder.cardRiwayat.setOnClickListener {
             val intent = Intent(context, detailPesanan::class.java)
             intent.putExtra("orderID", ListPesanan[position].orderID)
+            intent.putExtra("status", ListPesanan[position].status)
             context.startActivity(intent)
         }
 
