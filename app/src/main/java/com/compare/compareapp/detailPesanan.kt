@@ -23,6 +23,8 @@ class detailPesanan : AppCompatActivity() {
         binding = ActivityDetailPesananBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setTitle("EaTrain-App Admin")
+
         binding.recyclerViewItemRiwayat.apply {
             layoutManager = LinearLayoutManager(context)
         }

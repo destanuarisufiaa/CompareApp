@@ -41,6 +41,8 @@ class uploadActivity : AppCompatActivity() {
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setTitle("EaTrain-App Admin")
+
         uploadImage.isEnabled = true
 
         if (ActivityCompat.checkSelfPermission(

@@ -44,6 +44,8 @@ class UpdateActivity : AppCompatActivity() {
         binding = ActivityUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setTitle("EaTrain-App Admin")
+
         //cek permission upload gambar
         updateImage.isEnabled = true
 

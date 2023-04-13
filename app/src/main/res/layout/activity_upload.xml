@@ -6,12 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/top_background"
     tools:context=".uploadActivity">
     
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         app:cardCornerRadius="30dp"
@@ -33,8 +34,8 @@
                 android:textColor="@color/black"/>
 
             <ImageView
-                android:layout_width="230dp"
-                android:layout_height="240dp"
+                android:layout_width="200dp"
+                android:layout_height="230dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/uploadimg"
@@ -58,7 +59,8 @@
                 android:padding="16dp"
                 android:hint="enter topic name"
                 android:gravity="start|center_vertical"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textAllCaps="true"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -88,7 +90,8 @@
                 android:id="@+id/saveButton"
                 android:textSize="18sp"
                 android:layout_marginTop="20dp"
-                app:cornerRadius = "20dp"/>
+                app:cornerRadius = "20dp"
+                android:backgroundTint="@color/purple_700"/>
 
         </LinearLayout>
 

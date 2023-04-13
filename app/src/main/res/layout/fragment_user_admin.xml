@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/top_background"
     tools:context=".user_admin">
 
     <RelativeLayout
         android:id="@+id/rellay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/grad"
         android:paddingBottom="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,8 +33,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:padding="3dp"
                 android:src="@drawable/ic_baseline_person_24"
-                app:civ_fill_color="@color/gradEnd"
-                app:civ_border_color="@color/gradStart"/>
+                app:civ_fill_color="@color/purple_500"
+                app:civ_border_color="@color/purple_500"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -61,7 +61,8 @@
             android:fontFamily="sans-serif"
             android:text="Nama"
             android:textAllCaps="true"
-            android:textColor="@color/address"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:textSize="20sp" />
 
     </RelativeLayout>
@@ -89,7 +90,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email"
-                    android:textColor="@color/headings"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="13sp" />
 
                 <TextView
@@ -98,27 +100,30 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="email"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/grey" />
+                    android:layout_marginTop="5dp"
+                    android:background="@color/black" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Gender"
-                    android:textColor="@color/headings"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="13sp" />
 
                 <TextView
@@ -127,28 +132,30 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="gender"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/grey" />
+                    android:layout_marginTop="5dp"
+                    android:background="@color/black" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Phone"
-                    android:textColor="@color/headings"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="13sp" />
 
                 <TextView
@@ -157,14 +164,15 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="nomor"
-                    android:textColor="#000000"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="18sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@color/grey" />
+                    android:layout_marginTop="5dp"
+                    android:background="@color/black" />
 
             </LinearLayout>
 
@@ -201,25 +209,25 @@
 
             <Button
                 android:id="@+id/btn_changePass"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 android:layout_gravity="center"
                 android:text="CHANGE PASSWORD"
                 android:textSize="20dp"
-                android:textColor="@color/purple_700"
-                android:backgroundTint="@color/gradEnd"/>
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"/>
 
             <Button
                 android:id="@+id/btn_logout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:text="LOGOUT"
                 android:textSize="20dp"
-                android:textColor="@color/purple_700"
-                android:backgroundTint="@color/gradStart"/>
+                android:textColor="@color/black"
+                android:backgroundTint="@color/white"/>
 
         </LinearLayout>
 
@@ -245,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:text="Current Password"
                     android:textAlignment="center"
-                    android:textColor="@color/gradStart"
+                    android:textColor="@color/purple_700"
                     android:textSize="20dp"
                     android:textStyle="bold"/>
 
@@ -285,7 +293,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/gradStart"
+                        android:backgroundTint="@color/purple_700"
                         android:text="Confirm" />
 
                 </LinearLayout>
@@ -316,7 +324,7 @@
                     android:layout_height="wrap_content"
                     android:text="New Password"
                     android:textAlignment="center"
-                    android:textColor="@color/gradStart"
+                    android:textColor="@color/purple_700"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -368,7 +376,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/gradStart"
+                        android:backgroundTint="@color/purple_700"
                         android:text="Change" />
 
                 </LinearLayout>

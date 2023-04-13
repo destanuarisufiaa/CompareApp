@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         }
         else replaceFragment(update_produk()) //INILO SUMBER E
 
+        supportActionBar?.setTitle("EaTrain-App Admin")
+
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId){
                 R.id.update_produk -> replaceFragment(update_produk())

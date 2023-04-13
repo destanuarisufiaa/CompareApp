@@ -18,6 +18,8 @@ class login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        supportActionBar?.setTitle("EaTrain-App Admin")
+
         auth = FirebaseAuth.getInstance()
 
         binding.GantiPassword.setOnClickListener {

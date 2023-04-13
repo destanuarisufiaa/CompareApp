@@ -38,6 +38,8 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setTitle("EaTrain-App Admin")
+
         detailTittle = findViewById(R.id.detailTittle)
         detailHarga = findViewById(R.id.detailHarga)
         detailDesc = findViewById(R.id.detailDesc)

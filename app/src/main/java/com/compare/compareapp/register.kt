@@ -31,6 +31,8 @@ class register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        supportActionBar?.setTitle("EaTrain-App Admin")
+
         val gender = findViewById<TextView>(R.id.txt_gender_register)
         val gender1 = findViewById<RadioGroup>(R.id.rg_gender1_register)
 

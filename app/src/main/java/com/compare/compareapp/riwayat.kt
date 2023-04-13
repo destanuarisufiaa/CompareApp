@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.compare.compareapp.databinding.FragmentRiwayatBinding
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 class riwayat : Fragment() {
 
@@ -35,7 +37,7 @@ class riwayat : Fragment() {
 
     private fun riwayatPesanan() {
         val listPesananRiwayat = FirebaseFirestore.getInstance().collection("pesanan")
-        listPesananRiwayat.get()
+        listPesananRiwayat.whereNotEqualTo("status", "SELESAI").get()
             .addOnSuccessListener { documents ->
                 for (document in documents)
                 {
@@ -45,6 +47,7 @@ class riwayat : Fragment() {
                 }
 
             }
+
         }
     }
 
