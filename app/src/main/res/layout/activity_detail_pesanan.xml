@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:text="STATUS PESANAN"
                     android:textAlignment="center"
                     android:textColor="@color/black"
@@ -101,13 +101,89 @@
                     android:background="@color/purple_700"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="SIMPAN STATUS"
                     android:textColor="@color/white"
                     android:textSize="15dp"
                     android:textStyle="bold" />
 
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <EditText
+                        android:id="@+id/edit_text_input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/button_set"
+                        android:hint="Minutes!"
+                        android:padding="10dp"
+                        android:maxLength="4"
+                        android:inputType="number"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:textColorHint="#9E9E9E" />
+
+                    <Button
+                        android:id="@+id/button_set"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:background="@color/purple_700"
+                        android:textColor="#ffffff"
+                        android:textSize="16dp"
+                        android:text="SET" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/text_view_countdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="00:00"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="30sp" />
+
             </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="270dp"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/button_start_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="start" />
+
+                <Button
+                    android:id="@+id/button_reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_toEndOf="@+id/button_start_pause"
+                    android:text="reset"
+                    android:visibility="invisible"
+                    tools:visibility="visible" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
