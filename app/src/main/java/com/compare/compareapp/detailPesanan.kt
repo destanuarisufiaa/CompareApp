@@ -1,9 +1,11 @@
 package com.compare.compareapp
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -13,6 +15,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_detail_pesanan.*
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.util.*
 
 
@@ -25,6 +29,8 @@ class detailPesanan : AppCompatActivity() {
     private lateinit var mButtonSet: Button
     private lateinit var mButtonStartPause: Button
     private lateinit var mButtonReset: Button
+    var db = Firebase.firestore
+    val countdownsRef = db.collection("countdowns")
 
     private var mCountDownTimer: CountDownTimer? = null
     private var mTimerRunning = false
@@ -151,6 +157,12 @@ class detailPesanan : AppCompatActivity() {
     private fun startTimer() {
         mEndTime = System.currentTimeMillis() + mTimeLeftInMillis
 
+        val countdownData = hashMapOf(
+            "start_time" to System.currentTimeMillis(),
+            "time_left" to mTimeLeftInMillis
+        )
+        countdownsRef.document().set(countdownData)
+
         mCountDownTimer = object : CountDownTimer(mTimeLeftInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 mTimeLeftInMillis = millisUntilFinished
@@ -246,6 +258,27 @@ class detailPesanan : AppCompatActivity() {
         super.onStart()
 
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
+
+        countdownsRef.get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val startTime = document.getLong("start_time")!!
+                    val timeLeft = document.getLong("time_left")!!
+
+                    // Menghitung waktu berakhir dari waktu mulai dan waktu tersisa
+                    val endTime = startTime + timeLeft
+
+                    // Mengecek apakah countdown sudah berakhir
+                    if (System.currentTimeMillis() < endTime) {
+                        mStartTimeInMillis = startTime
+                        mTimeLeftInMillis = endTime - System.currentTimeMillis()
+                        startTimer()
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting countdowns", exception)
+            }
 
         mStartTimeInMillis = prefs.getLong("startTimeInMillis", 600000)
         mTimeLeftInMillis = prefs.getLong("millisLeft", mStartTimeInMillis)

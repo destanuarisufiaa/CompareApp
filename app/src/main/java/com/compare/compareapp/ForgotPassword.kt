@@ -17,6 +17,8 @@ class ForgotPassword : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        supportActionBar?.setTitle("EaTrain-App Admin")
+
         binding.btnReset.setOnClickListener {
             val email = binding.edtEmailReset.text.toString()
             val edtEmail= binding.edtEmailReset
