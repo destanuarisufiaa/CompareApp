@@ -39,7 +39,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Total Biaya Pemesanan"
+                    android:text="TOTAL BIAYA PEMESANAN"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="18dp"

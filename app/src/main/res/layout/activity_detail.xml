@@ -23,8 +23,8 @@
         android:textSize="30dp"/>
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="230dp"
+        android:layout_width="230dp"
+        android:layout_height="200dp"
         android:id="@+id/detailImage"
         android:layout_marginTop="5dp"
         android:padding="8dp"
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="Harga : "
+            android:text="PRICE : "
             android:textStyle="bold"
             android:layout_gravity="center"
             android:textColor="@color/black"
@@ -78,13 +78,14 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:text="Deskripsi : "
+            android:text="DESCRIPTION : "
             android:layout_gravity="center"
             android:textColor="@color/black"
             android:textStyle="bold"

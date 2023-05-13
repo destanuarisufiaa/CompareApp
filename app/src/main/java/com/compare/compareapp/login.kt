@@ -28,10 +28,10 @@ class login : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.tvToRegister.setOnClickListener {
-            val intent = Intent(this, register::class.java)
-            startActivity(intent)
-        }
+//        binding.tvToRegister.setOnClickListener {
+//            val intent = Intent(this, register::class.java)
+//            startActivity(intent)
+//        }
 
         binding.btnLogin.setOnClickListener{
             val email = binding.edtEmailLogin.text.toString()

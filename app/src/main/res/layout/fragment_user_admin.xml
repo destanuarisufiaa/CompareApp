@@ -89,10 +89,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Email"
+                    android:text="EMAIL"
+                    android:drawableLeft="@drawable/ic_baseline_email_24"
                     android:textColor="@color/black"
                     android:textStyle="bold"
-                    android:textSize="13sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/txt_email"
@@ -116,12 +117,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Gender"
+                    android:text="GENDER"
+                    android:drawableLeft="@drawable/ic_baseline_people_24"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="13sp" />
@@ -148,6 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:visibility="gone"
                 android:orientation="vertical">
 
                 <TextView
@@ -209,9 +213,9 @@
 
             <Button
                 android:id="@+id/btn_changePass"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="150dp"
                 android:layout_gravity="center"
                 android:text="CHANGE PASSWORD"
                 android:textSize="20dp"
@@ -220,7 +224,7 @@
 
             <Button
                 android:id="@+id/btn_logout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
@@ -231,7 +235,7 @@
 
         </LinearLayout>
 
-        <!--        card view current password-->
+        <!--        XML CARD VIEW UNTUK CURRENT PASSWORD-->
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_currentPass"
             android:layout_width="match_parent"

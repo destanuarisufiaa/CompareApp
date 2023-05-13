@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/top_background"
-    tools:context=".uploadActivity">
+    android:background="@drawable/top_background">
+<!--    tools:context=".uploadActivity">-->
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         app:cardCornerRadius="30dp"
@@ -34,8 +34,8 @@
                 android:textColor="@color/black"/>
 
             <ImageView
-                android:layout_width="200dp"
-                android:layout_height="230dp"
+                android:layout_width="230dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:src="@drawable/uploadimg"
                 android:id="@+id/updateImage"
