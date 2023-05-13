@@ -53,7 +53,6 @@ class DetailActivity : AppCompatActivity() {
             binding.detailTittle.text = bundle.getString("namaMenu")
             binding.detailHarga.text = bundle.getString("Harga")
             binding.detailDesc.text = bundle.getString("Desc")
-            binding.IDdoc.text = bundle.getString("docID")
             imageURL = bundle.getString("Image")!!
             Glide.with(this).load(bundle.getString("Image")).into(binding.detailImage)
         }
@@ -78,7 +77,6 @@ class DetailActivity : AppCompatActivity() {
                 .putExtra("Harga", detailHarga.text.toString())
                 .putExtra("Desc", detailDesc.text.toString())
                 .putExtra("Foto", imageURL)
-                .putExtra("docID", IDdoc.text.toString().trim())
             startActivity(intent)
         }
     }

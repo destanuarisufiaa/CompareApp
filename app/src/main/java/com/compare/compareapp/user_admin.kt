@@ -40,6 +40,7 @@ class user_admin : Fragment() {
         val userid = firebaseAuth.currentUser?.uid
 
         val ShowName = view.findViewById<TextView>(R.id.txt_nama)
+        val showNameProfile = view.findViewById<TextView>(R.id.txt_person)
         val ShowPhone = view.findViewById<TextView>(R.id.txt_nomor)
         val ShowGender = view.findViewById<TextView>(R.id.txt_gender)
         val ShowEmail = view.findViewById<TextView>(R.id.txt_email)
@@ -58,6 +59,7 @@ class user_admin : Fragment() {
                     imageURL = document.getString("foto").toString().trim()
 
                     ShowName.text = "$name"
+                    showNameProfile.text = "$name"
                     ShowPhone.text = "$phone"
                     ShowGender.text = "$gender"
                     ShowEmail.text = "$email"
