@@ -24,15 +24,18 @@
         android:background="@color/white"
         app:cardCornerRadius="20dp">
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="@color/white"
+            android:orientation="vertical"
             android:padding="30dp">
 
             <ImageView
@@ -40,16 +43,16 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/fotoprofil"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/black"
+                android:fontFamily="monospace"
                 android:text="REGISTER"
                 android:textAlignment="center"
-                android:fontFamily="monospace"
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -57,10 +60,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nama Lengkap"
-                app:boxStrokeWidth="0dp"
-                app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="15dp"
+                android:hint="Nama Lengkap"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeWidth="0dp"
                 app:startIconDrawable="@drawable/ic_baseline_person_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -75,10 +78,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nomor Handphone"
-                app:boxStrokeWidth="0dp"
-                app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="10dp"
+                android:hint="Nomor Handphone"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeWidth="0dp"
                 app:startIconDrawable="@drawable/ic_baseline_smartphone_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -93,12 +96,12 @@
                 android:id="@+id/txt_gender_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gender"
-                android:textSize="18dp"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_baseline_people_24"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"/>
+                android:drawableLeft="@drawable/ic_baseline_people_24"
+                android:text="Gender"
+                android:textColor="@color/black"
+                android:textSize="18dp" />
 
             <RadioGroup
                 android:id="@+id/rg_gender1_register"
@@ -107,29 +110,31 @@
                 android:layout_marginTop="2dp"
                 android:background="@drawable/bg_rounded_trans"
                 android:orientation="horizontal">
+
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pria"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wanita"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:text="Wanita"
                     android:textColor="@color/black"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </RadioGroup>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                app:boxStrokeWidth="0dp"
-                app:boxBackgroundColor="@color/white"
                 android:layout_marginTop="10dp"
+                android:hint="Email"
+                app:boxBackgroundColor="@color/white"
+                app:boxStrokeWidth="0dp"
                 app:startIconDrawable="@drawable/ic_baseline_email_24">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -137,7 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded_trans"
-                    android:inputType="textEmailAddress"/>
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -145,25 +150,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:text="ex : destanuari@gmail.com"
-                android:textSize="10dp"
-                android:textColor="#F10707" />
+                android:textColor="#F10707"
+                android:textSize="10dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:hint="Password"
                 app:boxBackgroundColor="@color/white"
-                android:layout_marginTop="10dp"
                 app:boxStrokeWidth="0dp"
-                app:startIconDrawable="@drawable/ic_baseline_password_24"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:startIconDrawable="@drawable/ic_baseline_password_24">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_password_register"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_rounded_trans"
-                    android:inputType="textPassword"/>
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -171,8 +176,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:text="note : panjang password tidak boleh kurang dari 6"
-                android:textSize="10dp"
-                android:textColor="#F10707" />
+                android:textColor="#F10707"
+                android:textSize="10dp" />
 
             <Button
                 android:id="@+id/btn_register"
@@ -181,18 +186,18 @@
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/purple_700"
                 android:text="Register"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:backgroundTint="@color/black"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="12dp"
                 android:text="SUDAH MEMILIKI AKUN?"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                android:textStyle="bold" />
 
             <!--            jika ingin balik ke halaman login-->
 
@@ -202,18 +207,15 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:text="LOGIN"
-                android:textSize="20dp"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textStyle="bold"/>
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
-
-
-    </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </RelativeLayout>

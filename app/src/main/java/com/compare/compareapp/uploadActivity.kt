@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -22,6 +23,7 @@ import com.compare.compareapp.databinding.ActivityUploadBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.yalantis.ucrop.UCrop
+import kotlinx.android.synthetic.main.activity_update.*
 import kotlinx.android.synthetic.main.activity_upload.*
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -32,20 +34,18 @@ class uploadActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUploadBinding
     private lateinit var currentPhotoPath : String
-
-    var foto : String = ""
-    var menu : String = ""
-    var harga : String = ""
-    var desc : String = ""
+    var foto = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUploadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.setTitle("EaTrain-App Admin")
 
+
+        supportActionBar?.setTitle("EaTrain-App Admin")
         uploadImage.isEnabled = true
+        binding.uploadImage.setImageResource(R.drawable.uploadimg)
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -61,7 +61,7 @@ class uploadActivity : AppCompatActivity() {
             selectImage()
         }
         saveButton.setOnClickListener {
-            uploadData(menu, harga, desc, foto, )
+            uploadData()
         }
     }
 
@@ -154,6 +154,7 @@ class uploadActivity : AppCompatActivity() {
         //menangkap hasil cropping dan update imageview
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             val resultUri = UCrop.getOutput(data!!)
+            foto = resultUri.toString()
             try {
                 val inputStream = contentResolver.openInputStream(resultUri!!)
                 val bitmap = BitmapFactory.decodeStream(inputStream)
@@ -183,12 +184,11 @@ class uploadActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadData(menu: String, harga : String, desc : String, foto: String){
+    private fun uploadData(){
         val menu = binding.uploadJudulMenu.text.toString()
         val harga = binding.uploadHargaMenu.text.toString()
         val desc = binding.uploadDesc.text.toString()
-
-        if (menu.isNotEmpty() && harga.isNotEmpty() && desc.isNotEmpty() && foto.isNotEmpty()) {
+        if (menu.isNotEmpty() && harga.isNotEmpty() && desc.isNotEmpty() && foto != "") {
             // jika data yang dibutuhkan telah diisi, lanjut ke proses upload
             uploadImage.isDrawingCacheEnabled = true
             uploadImage.buildDrawingCache()

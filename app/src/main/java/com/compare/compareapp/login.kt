@@ -67,7 +67,7 @@ class login : AppCompatActivity() {
                     val uid = auth.currentUser?.uid
                     val db = FirebaseFirestore.getInstance()
                     val cekDoc = db.collection("admin").document(uid!!).collection("Profil").document(uid)
-                        cekDoc.get().addOnSuccessListener {
+                    cekDoc.get().addOnSuccessListener {
                             if (it.getString("email") == auth.currentUser?.email){
                                 val nama = it.getString("name")
                                 Toast.makeText(this, "Selamat datang, $nama", Toast.LENGTH_SHORT).show()

@@ -43,23 +43,29 @@ class detailPesanan : AppCompatActivity() {
         binding = ActivityDetailPesananBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //pada detailActivity terdapat actionBar dengan judul Eatrain-App Admin
         supportActionBar?.setTitle("EaTrain-App Admin")
 
+        //untuk mengatur tampilan layout dari RecyclerView pada activity
         binding.recyclerViewItemRiwayat.apply {
+            // menampilkan item yang disusun dalam daftar linear vertikal.
             layoutManager = LinearLayoutManager(context)
         }
 
+        //mengambil nilai "status" dari Intent dan menyimpannya ke dalam variabel status.
         val status = intent.getStringExtra("status")
+        // mengecek nilai dari status
         if (status.equals("PERSIAPAN")){
             binding.rgStatusPesanan.check(R.id.persiapan)
         }else if (status.equals("ANTAR")){
             binding.rgStatusPesanan.check(R.id.antar)
         }else if (status.equals("SELESAI")){
-            binding.rgStatusPesanan.check(R.id.persiapan)
+            binding.rgStatusPesanan.check(R.id.selesai)
         }
 
         fetchDataPesanan()
 
+        //apabila button save pada update status ditekan maka akan memanggil fungsi status pesanan
         btn_updateStatus.setOnClickListener {
             statusPesanan()
         }

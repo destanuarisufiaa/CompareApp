@@ -2,6 +2,7 @@ package com.compare.compareapp
 
 import com.google.firebase.firestore.DocumentId
 
+//data yang akan diambil dari firestore dimasukkan pada class dataRiwayat
 class dataRiwayat(
     val namaKereta : String? = null,
     val Gerbong : String? = null,

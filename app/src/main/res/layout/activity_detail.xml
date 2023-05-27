@@ -95,6 +95,18 @@
                 android:layout_marginBottom="5dp"
                 android:textSize="20dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/documentID"
+                android:visibility="gone"
+                android:background="@color/white"
+                android:textColor="@color/black"
+                android:layout_below="@id/tv_deskripsi"
+                android:layout_marginTop="20dp"
+                android:textSize="14sp"
+                android:text="id ni boss" />
+
             <com.github.clans.fab.FloatingActionMenu
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
