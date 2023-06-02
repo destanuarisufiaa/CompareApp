@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/top_background"
     tools:context=".user_admin">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/rellay1"
@@ -46,7 +50,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15sp"
             android:fontFamily="sans-serif-light"
-            android:text="SELAMAT DATANG"
+            android:text="WELCOME"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="32sp" />
@@ -89,7 +93,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="NAMA"
+                    android:text="NAME"
                     android:drawableLeft="@drawable/ic_baseline_person_24"
                     android:textColor="@color/black"
                     android:textStyle="bold"
@@ -424,4 +428,6 @@
 
     </RelativeLayout>
 
-</FrameLayout>
+    </FrameLayout>
+
+</ScrollView>

@@ -74,12 +74,12 @@ class DetailActivity : AppCompatActivity() {
                 .delete()
                 //inisialisasi sukses
                 .addOnSuccessListener {
-                    //apabila sukses maka menghapus data url pada firebase storage untuk dihapus
+                    //untuk menghapus data url pada firebase storage
                     FirebaseStorage.getInstance().getReferenceFromUrl(imageURL).delete()
-                    //dan juga intent atau berpindah halaman pada MainActivity
+                    //berpindah halaman pada MainActivity
                     val intent = Intent(this,MainActivity::class.java)
                     startActivity(intent)
-                    //jika sukses jga akan menampilkan toast kalimat "Data berhasil di hapus"
+                    //jika sukses menampilkan toast kalimat "Data berhasil di hapus"
                     Toast.makeText(this, "Data Berhasil Di Hapus!", Toast.LENGTH_SHORT).show()
                 //inisialisasi gagal
                 }.addOnFailureListener {
@@ -91,7 +91,7 @@ class DetailActivity : AppCompatActivity() {
         editButton.setOnClickListener {
             //inisialisasi variabel untuk berpindah halaman ke activity update (edit)
             val intent = Intent(this,UpdateActivity::class.java)
-                //putExtra digunakan untuk menambahkan data tambahan ke intent yang akan dikirim pada activity update
+                //putExtra untuk menambahkan data tambahan ke intent yang akan dikirim pada activity update
                 .putExtra("namaMenu", detailTittle.text.toString())
                 .putExtra("Harga", detailHarga.text.toString())
                 .putExtra("Desc", detailDesc.text.toString())

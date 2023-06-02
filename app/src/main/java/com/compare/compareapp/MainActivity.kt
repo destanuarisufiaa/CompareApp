@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         {
             replaceFragment(riwayat())
         }
-        else replaceFragment(update_produk()) //INILO SUMBER E
+        else replaceFragment(update_produk())
 
         supportActionBar?.setTitle("EaTrain-App Admin")
 

@@ -70,38 +70,56 @@ class detailPesanan : AppCompatActivity() {
             statusPesanan()
         }
 
+        //inisialisasi untuk menghubungkan elemen UI pada file XML berdasarkan ID
         mEditTextInput = findViewById(R.id.edit_text_input)
         mTextViewCountDown = findViewById(R.id.text_view_countdown)
         mButtonSet = findViewById(R.id.button_set)
         mButtonStartPause = findViewById(R.id.button_start_pause)
         mButtonReset = findViewById(R.id.button_reset)
 
+        //apabila button set ditekan
         mButtonSet.setOnClickListener {
+            //mengambil teks dari mEditTextInput dan dimasukkan pda variabel input
             val input = mEditTextInput.text.toString()
+            //jika inputannya kosong
             if (input.isEmpty()) {
+                //maka akan menampilkan toast dengan teks dibawah
                 Toast.makeText(this, "Field can't be empty", Toast.LENGTH_SHORT).show()
+                // dan menghentikan eksekusi blok dengan return
                 return@setOnClickListener
             }
-
+            //mengkonversi nilai input menjadi tipe Long dan mengkonversi menit menjadi milidetik (mengkali dgn 6000)
+            //lalu dimasukkan pada variabel milisInput
             val millisInput = input.toLongOrNull()?.times(60000)
+            //memeriksa apakah nilai nya null atau 0
             if (millisInput == null || millisInput == 0L) {
+                //jika iya menampilkan pesan toast di bawah
                 Toast.makeText(this, "Please enter a positive number", Toast.LENGTH_SHORT).show()
+                // dan menghentikan eksekusi blok dengan return
                 return@setOnClickListener
             }
-
+            //memanggil fungsi set time dengan isi milisInput untuk mengatur waktu pada timer
             setTime(millisInput)
+            //kemudian mengosongkan teks pada mEditTextInput
             mEditTextInput.text.clear()
         }
 
+        //apabila tommbol start/pause ditekan
         mButtonStartPause.setOnClickListener {
+            //jika timer sedang berjalan
             if (mTimerRunning) {
+                //memanggil fungsi pause untuk menjeda
                 pauseTimer()
+            //jika timer tidak berjalan / else
             } else {
+                //maka memanggil fungsi start timer untuk memulai timer
                 startTimer()
             }
         }
 
+        //jika button reset ditekan
         mButtonReset.setOnClickListener {
+            //memanggil fungsi reset timer untuk mengatur ulang timer
             resetTimer()
         }
     }
@@ -131,36 +149,53 @@ class detailPesanan : AppCompatActivity() {
     }
 
     private fun statusPesanan() {
+        //mengecek radio button pada radio grup dan memasukkan pada variabel cekGenderRadioButtonID
         val cekGenderRadioButtonId = rg_statusPesanan.checkedRadioButtonId
+        //inisialisasi hasil cek radio button pada variabel listStatus
         val listStatus = findViewById<RadioButton>(cekGenderRadioButtonId)
+        //mengambil teks dari variabel listStatus dan menyimpan pada var hasilStatus
         hasilStatus = "${listStatus.text}"
 
+        //Menghapus spasi di awal dan akhir hasilStatus dan menyimpan pada var edSTatus
         val edStatus = hasilStatus.trim()
 
+        //inisialisasi firestore dan menyimpan pada var dbUpdatePesanan
         val dbUpdatePesanan = FirebaseFirestore.getInstance()
         val bahanStatus = hashMapOf<String, Any>(
             "status" to edStatus,
         )
+        //mendapatkan nilai orderID dari intent
         val orderID = intent.getStringExtra("orderID").toString()
+        //mengupdate dokumen pada collection pesanan dengan ID OrderID
         dbUpdatePesanan.collection("pesanan").document(orderID).update(bahanStatus)
+            //apabila perubahan berhasil dilakukan
             .addOnSuccessListener{ documentReference ->
+                //maka menampilkan text "Sukses Perubahan Status"
                 Toast.makeText(this, "Sukses Perubahan Status", Toast.LENGTH_SHORT).show()
+                //dan berpindah halaman pada MainActivity
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("direct", "true")
                 startActivity(intent)
+            //jika gagal
             }.addOnFailureListener {
+                //menampilkan toast "Failed!,gagal"
                 Toast.makeText(this, "Failed!, gagal", Toast.LENGTH_SHORT).show()
             }
 
     }
-
+    //fungsi untuk ngeset waktu awal pada timer
     private fun setTime(milliseconds: Long) {
+        //menetapkan nilai mStartTimeInMilis nilainya miliseconds
         mStartTimeInMillis = milliseconds
+        //memanggil fungsi reset untuk mengatur ulang timer
         resetTimer()
+        //manggil fungsi closeKeyboard untuk menyembunyikan keyboard jika terbuka
         closeKeyboard()
     }
 
+    //fungsi untuk memulai timer
     private fun startTimer() {
+        //menghitung mEndTime dengan
         mEndTime = System.currentTimeMillis() + mTimeLeftInMillis
 
         val countdownData = hashMapOf(
