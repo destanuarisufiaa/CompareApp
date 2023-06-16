@@ -17,6 +17,7 @@ import kotlin.collections.ArrayList
 class update_produk : Fragment() {
 
     private lateinit var binding: FragmentUpdateProdukBinding
+    private lateinit var myAdapter : MyAdapter
 
 
     override fun onCreateView(
@@ -29,15 +30,17 @@ class update_produk : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //mengatur recyclerView menggunakan liner layout
         binding.recyclerView.apply {
            layoutManager = LinearLayoutManager(context)
-
         }
-
+        //memanggil fungsi fetchData
         fetchData()
 
+        //inisialisasi button floating
         val floatingfab1 = view.findViewById<FloatingActionButton>(R.id.btn_fab)
 
+        //jika button floatingfab ditekan, pindah activity
         floatingfab1.setOnClickListener {
             val intent = Intent(requireContext(), uploadActivity::class.java)
             startActivity(intent)
@@ -45,15 +48,32 @@ class update_produk : Fragment() {
 
     }
 
+    //fungsi fetchData
     private fun fetchData() {
+        //mendapatkan objek firebasefirestore untuk mengakses koleksi “Menu”
         FirebaseFirestore.getInstance().collection("Menu")
+            //mendapatkan data dari koleksi “Menu”
             .get()
+            //jika sukses menampilkannya dalam RecyclerView
             .addOnSuccessListener { documents ->
                 for (document in documents){
                     val menu = documents.toObjects(Menu::class.java)
-                    binding.recyclerView.adapter = context?.let { MyAdapter (it, menu) }
-                }
+                    myAdapter = context?.let { MyAdapter (it, menu) }!!
+                    binding.recyclerView.adapter = myAdapter
 
+                    //searchView
+                    binding.searchView.setOnQueryTextListener(object:androidx.appcompat.widget.SearchView.OnQueryTextListener{
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            return false
+                        }
+
+                        override fun onQueryTextChange(query: String?): Boolean {
+                            myAdapter.filter.filter(query)
+                            return false
+                        }
+
+                    })
+                }
             }
             .addOnFailureListener {
 
