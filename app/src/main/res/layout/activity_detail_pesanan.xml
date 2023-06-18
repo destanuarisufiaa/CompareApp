@@ -64,40 +64,39 @@
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
+
                 <RadioGroup
                     android:id="@+id/rg_statusPesanan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    >
+
                     <RadioButton
                         android:id="@+id/persiapan"
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="PERSIAPAN"
-                        android:layout_marginStart="5dp"/>
+                        />
 
                     <RadioButton
                         android:id="@+id/antar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:text="ANTAR"
-                        android:layout_centerInParent="true" />
+                        android:textColor="@color/black" />
 
                     <RadioButton
                         android:id="@+id/selesai"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="SELESAI"
-                        android:textColor="@color/black"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginEnd="20dp"/>
-                    </RelativeLayout>
+                        android:textColor="@color/black" />
                     </RadioGroup>
 
                 <TextView

@@ -52,10 +52,10 @@ class user_admin : Fragment() {
 
         val ShowName = view.findViewById<TextView>(R.id.txt_nama)
         val showNameProfile = view.findViewById<TextView>(R.id.txt_person)
-        val ShowPhone = view.findViewById<TextView>(R.id.txt_nomor)
-        val ShowGender = view.findViewById<TextView>(R.id.txt_gender)
+//        val ShowPhone = view.findViewById<TextView>(R.id.txt_nomor)
+//        val ShowGender = view.findViewById<TextView>(R.id.txt_gender)
         val ShowEmail = view.findViewById<TextView>(R.id.txt_email)
-        val statuss = view.findViewById<TextView>(R.id.statuss)
+//        val statuss = view.findViewById<TextView>(R.id.statuss)
         val foto = view.findViewById<ImageView>(R.id.uploadimage_user)
 
 
@@ -71,14 +71,14 @@ class user_admin : Fragment() {
 
                     ShowName.text = "$name"
                     showNameProfile.text = "$name"
-                    ShowPhone.text = "$phone"
-                    ShowGender.text = "$gender"
+//                    ShowPhone.text = "$phone"
+//                    ShowGender.text = "$gender"
                     ShowEmail.text = "$email"
                     Glide.with(this)
                         .load(imageURL)
                         .into(foto)
 
-                    statuss.text = "Succes dapat data user $userid"
+//                    statuss.text = "Succes dapat data user $userid"
                 }
             }
         btn_logout.setOnClickListener {

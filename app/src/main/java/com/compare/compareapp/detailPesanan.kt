@@ -23,12 +23,12 @@ import java.util.*
 class detailPesanan : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailPesananBinding
-    private lateinit var hasilStatus : String
     private lateinit var mEditTextInput: EditText
     private lateinit var mTextViewCountDown: TextView
     private lateinit var mButtonSet: Button
     private lateinit var mButtonStartPause: Button
     private lateinit var mButtonReset: Button
+    private lateinit var hasilStatus:String
     var db = Firebase.firestore
     val countdownsRef = db.collection("countdowns")
 
@@ -61,13 +61,21 @@ class detailPesanan : AppCompatActivity() {
             binding.rgStatusPesanan.check(R.id.antar)
         }else if (status.equals("SELESAI")){
             binding.rgStatusPesanan.check(R.id.selesai)
-        }
+        }else binding.rgStatusPesanan.clearCheck()
 
         fetchDataPesanan()
 
         //apabila button save pada update status ditekan maka akan memanggil fungsi status pesanan
         btn_updateStatus.setOnClickListener {
-            statusPesanan()
+            val cekGenderRadioButtonId = binding.rgStatusPesanan.checkedRadioButtonId
+            if (cekGenderRadioButtonId != -1) {
+                val listStatus = findViewById<RadioButton>(cekGenderRadioButtonId)
+                hasilStatus = "${listStatus.text}"
+                val edStatus = hasilStatus.trim()
+                statusPesanan(edStatus)
+            } else {
+                Toast.makeText(this, "Anda belum memilih status", Toast.LENGTH_SHORT).show()
+            }
         }
 
         //inisialisasi untuk menghubungkan elemen UI pada file XML berdasarkan ID
@@ -148,16 +156,7 @@ class detailPesanan : AppCompatActivity() {
         }
     }
 
-    private fun statusPesanan() {
-        //mengecek radio button pada radio grup dan memasukkan pada variabel cekGenderRadioButtonID
-        val cekGenderRadioButtonId = rg_statusPesanan.checkedRadioButtonId
-        //inisialisasi hasil cek radio button pada variabel listStatus
-        val listStatus = findViewById<RadioButton>(cekGenderRadioButtonId)
-        //mengambil teks dari variabel listStatus dan menyimpan pada var hasilStatus
-        hasilStatus = "${listStatus.text}"
-
-        //Menghapus spasi di awal dan akhir hasilStatus dan menyimpan pada var edSTatus
-        val edStatus = hasilStatus.trim()
+    private fun statusPesanan(edStatus:String) {
 
         //inisialisasi firestore dan menyimpan pada var dbUpdatePesanan
         val dbUpdatePesanan = FirebaseFirestore.getInstance()
