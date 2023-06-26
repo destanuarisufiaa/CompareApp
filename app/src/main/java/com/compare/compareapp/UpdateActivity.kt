@@ -53,21 +53,28 @@ class UpdateActivity : AppCompatActivity() {
         binding = ActivityUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //judul action bar
         supportActionBar?.setTitle("EaTrain-App Admin")
 
         //cek permission upload gambar
+        //mengaktifkan tombol id UploadImage (ImageView) untuk dapat di klik
         updateImage.isEnabled = true
 
+        //melakukan pemeriksaan izin untuk kamera apakah telah diaktifkan (diberikan)
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA
+                //jika izin kamera belum diberikan
             )!= PackageManager.PERMISSION_GRANTED
         ){
+            //maka meminta izin kamera dengan menggunakan "requestPermissions"
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 100)
         }else{
+            //jika izin telah diberikan, maka tidak perlu meminta izin.  dan tombol UploadImage dapat di klik untuk upload gambar
             updateImage.isEnabled = true
         }
 
+        //jika id updateImage di klik, menjalankan fungsi selectImage
         updateImage.setOnClickListener {
             selectImage()
         }
@@ -97,6 +104,7 @@ class UpdateActivity : AppCompatActivity() {
             Glide.with(this).load(bundle?.getString("Foto")).into(updateeImage)
         }
 
+        //jika id buttonUpdate di klik, menjalankan fungsi uploadData
         buttonUpdate.setOnClickListener {
             uploadData()
         }
@@ -104,11 +112,16 @@ class UpdateActivity : AppCompatActivity() {
     }
 
     private fun selectImage() {
+        //membuat array "items" dengan 3 pilihan
         val items = arrayOf<CharSequence>("Take Photo", "Choose from Library", "Cancel")
+        //membuat variabel "builder"
         val builder = android.app.AlertDialog.Builder(this)
+        //dengan judul "EaTrain Admin"
         builder.setTitle(getString(R.string.app_name))
+        //dan ikon aplikasi
         builder.setIcon(R.mipmap.ic_launcher)
         builder.setItems(items) { dialog: DialogInterface, item: Int ->
+            //jika memilih opsi "Take Photo"
             if (items[item] == "Take Photo") {
                 // Ambil gambar menggunakan kamera
                 Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
@@ -116,6 +129,7 @@ class UpdateActivity : AppCompatActivity() {
                     takePictureIntent.resolveActivity(packageManager)?.also {
                         // Buat file gambar sementara untuk menyimpan hasil kamera
                         val photoFile: File? = try {
+                            //membuat file gambar dengan fungsi createImageFile untuk penyimpanan gambar yang di capture
                             createImageFile()
                         } catch (ex: IOException) {
                             // Error saat membuat file
@@ -125,6 +139,7 @@ class UpdateActivity : AppCompatActivity() {
                         }
                         // Jika file berhasil dibuat, lanjutkan mengambil gambar dari kamera
                         photoFile?.also {
+                            //memperoleh uri file yang akan digunakan untuk menyimpan hasil foto
                             val photoURI: Uri = FileProvider.getUriForFile(
                                 this, "com.compare.compareapp.fileprovider", it
                             )
@@ -134,12 +149,17 @@ class UpdateActivity : AppCompatActivity() {
                     }
                 }
             }
-
+            //mengambil gambar dari galeri
             else if (items[item] == "Choose from Library") {
+                //membuat variabel intent untuk memilih gambar dari galeri
                 val intent = Intent(Intent.ACTION_PICK)
+                //mengatur tipe intent, untuk membatasi bahwa yang dipilih hanya pada tipe gambar
                 intent.type = "image/*"
+                //memulai aktivitas selectImage dengan intent dan kode permintaan 20
                 startActivityForResult(Intent.createChooser(intent, "Select Image"), 20)
+            //jika opsi yang dipilih cancel
             } else if (items[item] == "Cancel") {
+                //dialog akan ditutup
                 dialog.dismiss()
             }
         }
@@ -149,11 +169,14 @@ class UpdateActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        //galeri
         if (requestCode == 20 && resultCode == RESULT_OK && data != null) {
             val path : Uri? = data.data
             //crop
             //  path?.let { startCrop(it) }
+            //Membuat URI tujuan untuk menyimpan gambar hasil cropping
             val destinationUri = Uri.fromFile(File(cacheDir, "IMG_" + System.currentTimeMillis()))
+            // Mengatur opsi-opsi untuk fitur cropping
             val options = UCrop.Options()
             options.setCompressionQuality(80)
             options.setToolbarTitle(getString(R.string.app_name))
@@ -162,6 +185,7 @@ class UpdateActivity : AppCompatActivity() {
             options.setToolbarWidgetColor(Color.WHITE)
             options.setActiveControlsWidgetColor(ContextCompat.getColor(this, R.color.purple_700))
             options.setCompressionFormat(Bitmap.CompressFormat.JPEG)
+            //memulai aktivitas crop
             UCrop.of(path!!, destinationUri)
                 .withAspectRatio(1f, 1f)
                 .withMaxResultSize(720,720)
@@ -172,8 +196,10 @@ class UpdateActivity : AppCompatActivity() {
         //kamera
         if (requestCode == 10 && resultCode == RESULT_OK) {
             val imageUri = Uri.fromFile(File(currentPhotoPath))
+            //Membuat URI tujuan untuk menyimpan gambar hasil cropping
             val path = Uri.fromFile(File(cacheDir, "IMG_" + System.currentTimeMillis()))
             //crop
+            // Mengatur opsi-opsi untuk fitur cropping
             val options = UCrop.Options()
             options.setCompressionQuality(80)
             options.setToolbarTitle(getString(R.string.app_name))
@@ -182,6 +208,7 @@ class UpdateActivity : AppCompatActivity() {
             options.setToolbarWidgetColor(Color.WHITE)
             options.setActiveControlsWidgetColor(ContextCompat.getColor(this, R.color.purple_700))
             options.setCompressionFormat(Bitmap.CompressFormat.JPEG)
+            //memulai aktivitas crop
             UCrop.of(imageUri!!, path)
                 .withAspectRatio(1f, 1f)
                 .withMaxResultSize(720,720)
@@ -192,15 +219,19 @@ class UpdateActivity : AppCompatActivity() {
 
         //menangkap hasil cropping dan update imageview
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            //mendapatkan URI hasil cropping menggunakan “UCrop.getOutput(data!!)”
             val resultUri = UCrop.getOutput(data!!)
             try {
+                //jika berhasil, membuka input stream dari URI hasil cropping dan mengonversinya menjadi objek bitmap
                 val inputStream = contentResolver.openInputStream(resultUri!!)
+                // Bitmap diatur sebagai gambar di ImageView
                 val bitmap = BitmapFactory.decodeStream(inputStream)
                 updateImage.setImageBitmap(bitmap)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         } else if (resultCode == UCrop.RESULT_ERROR) {
+            //jika proses crop error mendapatkan pesan eror melalui toast
             val cropError = UCrop.getError(data!!)
             Toast.makeText(this, cropError?.message, Toast.LENGTH_SHORT).show()
         }
@@ -223,53 +254,81 @@ class UpdateActivity : AppCompatActivity() {
     }
 
     private fun uploadData(){
+        //mengambil nilai teks dari input editText dan menghapus spasi di awal dan akhir string
         val edMenu = updateeJudul.text.toString().trim()
         val edHarga = updateeHarga.text.toString().trim()
         val edDesc = updateeDesc.text.toString().trim()
 
         updateImage.isDrawingCacheEnabled = true
         updateImage.buildDrawingCache()
+        //Mengambil gambar dari ImageView updateImage dan dikonversi menjadi objek Bitmap
         val bitmap = (updateImage.drawable as BitmapDrawable).bitmap
+        //Membuat objek untuk menampung data gambar yang diupload
         val baos = ByteArrayOutputStream()
+        //Mengompresi gambar menjadi format JPEG dengan kualitas 100 dan menyimpannya dalam objek ByteArrayOutputStream.
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        //Mengambil data gambar yang sudah dikompresi dari objek ByteArrayOutputStream dan mengonversinya menjadi array byte.
         val data = baos.toByteArray()
 
         //UPLOAD
+        //membuat progress dialoag (ikon loading)
         val builder = AlertDialog.Builder(this)
+        //Mengatur dialog agar tidak dapat dibatalkan dengan menekan tombol back.
         builder.setCancelable(false)
+        //Mengatur tampilan layout progres sebagai tampilan dialog.
         builder.setView(R.layout.progress_layout)
         val dialog = builder.create()
+        //menampilkan dialog
         dialog.show()
 
 //        val currentDate : String = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
+        //mendapatkan instance FirebaseStorage
         val storage = FirebaseStorage.getInstance()
+        //inisialisasi untuk menyimpan gambar ke folder "images" dengan nama file yg telah ditentukan
         val reference = storage.getReference("images").child("IMG"+ Date().time +".jpeg")
+        //mengunggah gambar ke firebaseStorage
         var uploadTask = reference.putBytes(data)
+        //jika gagal saat mengunggah gambar ke firebaseStorage
         uploadTask.addOnFailureListener {
+            //menampilkan toast failed
             Toast.makeText(this, "Failed!", Toast.LENGTH_SHORT).show()
+        //jika sukses
         }.addOnSuccessListener { taskSnapshot ->
+            //Mengecek apakah metadata dari taskSnapshot tidak null.
             if(taskSnapshot.metadata !=null){
+                //jika referensi metadata dari taskSnapshot tidak null
                 if(taskSnapshot.metadata!!.reference !=null){
+                    //mengambil URL unduhan file yang diunggah ke Firebase Storage.
+                    //jika telah complete
                     taskSnapshot.metadata!!.reference!!.downloadUrl.addOnCompleteListener {
+                        //Menghapus file gambar yang ada di Firebase Storage
                         FirebaseStorage.getInstance().getReferenceFromUrl(imageURL).delete()
                         val bundle = intent.extras
+                        //inisialisasi variabel docID untuk mendapatkan docID pada intent sebelumnya
                         val docID = bundle!!.getString("docID").toString().trim()
+                        //Mengambil URL hasil unduhan file dari Firebase Storage dan dikonversi menjadi string
                         var editfoto = it.getResult().toString()
                         val dbupdate = FirebaseFirestore.getInstance()
+                        //membuat objek yang berisi data-data menu yang akan diperbaharui
                         val updateMenu = hashMapOf<String, Any>(
                             "namaMenu" to edMenu,
                             "Harga" to edHarga,
                             "Foto" to editfoto,
                             "Desc" to edDesc,
                         )
+                        //melakukan update pada dokumen dengan id "docID" dari koleksi menu
                         dbupdate.collection("Menu").document("$docID").update(updateMenu)
+                            //jika berhasil
                             .addOnSuccessListener { documentReference ->
+                                //menampilkan toast sukses dan berpindah halaman ke mainActivity
                                 Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(this, MainActivity::class.java)
                                 startActivity(intent)
                             }
+                            //jika gagal
                             .addOnFailureListener { exception ->
                                 dialog.dismiss()
+                                //menampilkan pesan failed
                                 Toast.makeText(this, "Failed!, gagal $docID", Toast.LENGTH_SHORT).show()
                             }
                     }

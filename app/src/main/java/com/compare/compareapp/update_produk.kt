@@ -30,7 +30,7 @@ class update_produk : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //mengatur recyclerView menggunakan liner layout
+        //mengatur recyclerView menggunakan linear layout
         binding.recyclerView.apply {
            layoutManager = LinearLayoutManager(context)
         }

@@ -39,28 +39,46 @@ android {
 }
 
 dependencies {
+    //menyediakan fungsi ekstensi Kotlin untuk komponen inti Android seperti SharedPreferences, Permissions, dan lainnya.
     implementation 'androidx.core:core-ktx:1.7.0'
+    ////menyediakan kompatibilitas dengan fitur-fitur terbaru di perangkat dengan versi Android
     implementation 'androidx.appcompat:appcompat:1.5.1'
+    //menyediakan komponen UI yang mengikuti prinsip-prinsip desain Material.
     implementation 'com.google.android.material:material:1.7.0'
+    //digunakan untuk membuat tata letak (layout) yang kompleks dan fleksibel.
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // untuk mengintegrasikan sistem otentikasi pengguna ke dalam aplikasi
     implementation 'com.google.firebase:firebase-auth-ktx:21.2.0'
+    implementation 'com.google.firebase:firebase-auth:21.1.0'
+    //untuk mengakses dan menyimpan data dalam database Firebase Firestore
     implementation 'com.google.firebase:firebase-firestore-ktx:24.4.5'
     implementation 'com.google.firebase:firebase-firestore:24.4.1'
-    implementation 'com.google.firebase:firebase-auth:21.1.0'
+    //untuk untuk mengunggah dan mengunduh file ke penyimpanan Firebase Storage.
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
     implementation 'com.google.firebase:firebase-storage:20.1.0'
+    //untuk mengakses dan menyimpan data dalam database Realtime
     implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    //untuk memuat dan menampilkan gambar secara efisien dalam aplikasi Android.
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
+
+    //menyediakan ImageView yang berbentuk lingkaran untuk menampilkan gambar melingkar.
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    //library untuk menambahkan FAB ke aplikasi
     implementation 'com.github.clans:fab:1.6.4'
+
+    //untuk mengelola izin (permissions) dalam aplikasi
     implementation 'com.karumi:dexter:6.2.2'
+
+    //library pengambilan dan tampilan gambar dari berbagai sumber, seperti URL, file lokal, dan banyak lagi.
     implementation("io.coil-kt:coil:1.1.1")
 
-    //library Ucrop
+    //library Ucrop (untuk crop)
     implementation 'com.github.yalantis:ucrop:2.2.8-native'
 
 }

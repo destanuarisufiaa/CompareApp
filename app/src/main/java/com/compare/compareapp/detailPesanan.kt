@@ -22,6 +22,7 @@ import java.util.*
 
 class detailPesanan : AppCompatActivity() {
 
+    //membuat variabel
     private lateinit var binding: ActivityDetailPesananBinding
     private lateinit var mEditTextInput: EditText
     private lateinit var mTextViewCountDown: TextView
@@ -96,14 +97,14 @@ class detailPesanan : AppCompatActivity() {
                 // dan menghentikan eksekusi blok dengan return
                 return@setOnClickListener
             }
-            //mengkonversi nilai input menjadi tipe Long dan mengkonversi menit menjadi milidetik (mengkali dgn 6000)
+            //mengkonversi nilai input menjadi tipe Long dan mengkonversi menit menjadi milisecond (mengkali dgn 60000)
             //lalu dimasukkan pada variabel milisInput
             val millisInput = input.toLongOrNull()?.times(60000)
             //memeriksa apakah nilai nya null atau 0
             if (millisInput == null || millisInput == 0L) {
                 //jika iya menampilkan pesan toast di bawah
                 Toast.makeText(this, "Please enter a positive number", Toast.LENGTH_SHORT).show()
-                // dan menghentikan eksekusi blok dengan return
+                // dan tidak mengirim data apapun
                 return@setOnClickListener
             }
             //memanggil fungsi set time dengan isi milisInput untuk mengatur waktu pada timer
@@ -131,27 +132,36 @@ class detailPesanan : AppCompatActivity() {
             resetTimer()
         }
     }
-
+    //fungsi mengambil data pesanan dari firebase yang akan ditampilkan pada halaman detail riwayat
     private fun fetchDataPesanan() {
-
+        //mengambil nilai orderID pada activity sebelumnya dan dimasukkan pada variabel orderID
         val orderID = intent.getStringExtra("orderID").toString()
+        //Membuat variabel listRiwayatPesanan yang berisi objek itemDataRiwayat dan digunakan untuk menyimpan data pesanan dari database
         val listRiwayatPesanan = mutableListOf<itemDataRiwayat>()
+        //Mendapatkan  koleksi "pesanan" dari Firestore dan dokumen dengan ID yang sesuai dengan orderID.
+        // mengakses koleksi "menu" di dalam dokumen
         val riwayatPesanan = FirebaseFirestore.getInstance().collection("pesanan").document("$orderID").collection("menu")
+        //melakukan pengambilan data dengan metode get
         riwayatPesanan.get()
+            //jika dokumen berhasil diambil
             .addOnSuccessListener { documents ->
                 for (document in documents)
                 {
-
+                    //jika dokumen yang diambil bukan total
                     if (document.id != "total")
                     {
+                        //maka menambahkan objek pesananriwayat ke listriwayatPesanan
                         val pesananRiwayat = document.toObject(itemDataRiwayat::class.java)
                         listRiwayatPesanan.add(pesananRiwayat)
                     }
+                    //mengatur adapter untuk recyclerView
                     binding.recyclerViewItemRiwayat.adapter = itemRiwayatAdapter (this,listRiwayatPesanan)
                 }
             }
+    //mengambil dokumen dari firestore dengan dokumen ID total dari koleksi menu yang diakses sebelumnya
     riwayatPesanan.document("total").get()
         .addOnSuccessListener {
+            //menampilkan total pada textView dengan nilai string yang diperoleh dari dokumen total
             tv_totalForm.text = it.getString("total")
         }
     }
@@ -182,6 +192,7 @@ class detailPesanan : AppCompatActivity() {
             }
 
     }
+
     //fungsi untuk ngeset waktu awal pada timer
     private fun setTime(milliseconds: Long) {
         //menetapkan nilai mStartTimeInMilis nilainya miliseconds
@@ -194,23 +205,29 @@ class detailPesanan : AppCompatActivity() {
 
     //fungsi untuk memulai timer
     private fun startTimer() {
-        //menghitung mEndTime dengan
+        //menghitung mEndTime dengan menambahkan waktu sekrang dengan waktu yang tersisa
         mEndTime = System.currentTimeMillis() + mTimeLeftInMillis
 
         val countdownData = hashMapOf(
             "start_time" to System.currentTimeMillis(),
             "time_left" to mTimeLeftInMillis
         )
+        ////menyimpan koleksi countdown ke firestore
         countdownsRef.document().set(countdownData)
 
+        //menginisialisasi bahwa mCountDownTimer merupakan objek dari CountDownTimer
         mCountDownTimer = object : CountDownTimer(mTimeLeftInMillis, 1000) {
             override fun onTick(millisUntilFinished: Long) {
+                //mTimeLeftInMilis diupdate dengan waktu yang tersisa
                 mTimeLeftInMillis = millisUntilFinished
+                //dipanggil untuk memperbaharui countdown pada UI / tampilan
                 updateCountDownText()
             }
 
             override fun onFinish() {
+                //mTimerRunning diset menjadi false
                 mTimerRunning = false
+                //dan mengupdate antarmuka tampilan
                 updateWatchInterface()
             }
         }.start()
@@ -219,21 +236,32 @@ class detailPesanan : AppCompatActivity() {
         updateWatchInterface()
     }
 
+    //fungsi untuk menjeda timer
     private fun pauseTimer() {
+        //dihentikan menggunakan cancel
         mCountDownTimer?.cancel()
+        //timer running dirubah menjadi false
         mTimerRunning = false
+        //dipanggil untuk memperbaharui antarmuka tampilan
         updateWatchInterface()
     }
 
+    //fungsi untuk mengatur ulang timer
     private fun resetTimer() {
+        //diset menjadi start (waktu mulai)
         mTimeLeftInMillis = mStartTimeInMillis
+        //dipanggil untuk memperbarui tampilan waktu countdown dan antarmuka tampilan.
         updateCountDownText()
         updateWatchInterface()
     }
 
+    //fungsi untuk memperbaharui tampilan teks saat countdown
     private fun updateCountDownText() {
+        //dirubah menjadi format jam
         val hours = (mTimeLeftInMillis / 1000) / 3600
+        //menjadi format menit
         val minutes = ((mTimeLeftInMillis / 1000) % 3600) / 60
+        //dan dirubah menjadi format detik
         val seconds = (mTimeLeftInMillis / 1000) % 60
 
         val timeLeftFormatted = if (hours > 0) {
@@ -245,13 +273,19 @@ class detailPesanan : AppCompatActivity() {
         mTextViewCountDown.text = timeLeftFormatted
     }
 
+    //untuk memperbarui antarmuka tampilan timer
     private fun updateWatchInterface() {
+        //jika timer berjalan
         if (mTimerRunning) {
+            //maka tampilan dibawah menjadi invisible (tidak terlihat)
             mEditTextInput.visibility = View.INVISIBLE
             mButtonSet.visibility = View.INVISIBLE
             mButtonReset.visibility = View.INVISIBLE
+            //dan teks pada ButtonStartPause dirubah menjadi "Pause"
             mButtonStartPause.text = "Pause"
+        //jika tidak berjalan
         } else {
+            // akan disesuaikan berdasarkan kondisi mTimeLeftInMillis dan mStartTimeInMillis.
             mEditTextInput.visibility = View.VISIBLE
             mButtonSet.visibility = View.VISIBLE
             mButtonStartPause.text = "Start"
@@ -270,6 +304,7 @@ class detailPesanan : AppCompatActivity() {
         }
     }
 
+    //digunakan untuk menyembunyikan keyboard
     private fun closeKeyboard() {
         val view: View? = currentFocus
         if (view != null) {
@@ -278,17 +313,24 @@ class detailPesanan : AppCompatActivity() {
         }
     }
 
+    //pada fungsi stop, status timer akan disimpan dalam sharedpreferences
     override fun onStop() {
         super.onStop()
 
         val prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         val editor = prefs.edit()
 
+        //Menyimpan nilai mStartTimeInMillis (waktu mulai) ke dalam SharedPreferences dengan kunci "startTimeInMillis".
         editor.putLong("startTimeInMillis", mStartTimeInMillis)
+        //waktu tersisa
         editor.putLong("millisLeft", mTimeLeftInMillis)
+        //waktu berjalan
+        //digunakan untuk menyimpan dan mengambil status timer berjalan (true atau false).
         editor.putBoolean("timerRunning", mTimerRunning)
+        //waktu berakhir
         editor.putLong("endTime", mEndTime)
 
+        //Melakukan  penyimpanan perubahan ke dalam SharedPreferences.
         editor.apply()
 
         mCountDownTimer?.cancel()
@@ -309,6 +351,7 @@ class detailPesanan : AppCompatActivity() {
                     val endTime = startTime + timeLeft
 
                     // Mengecek apakah countdown sudah berakhir
+                    //jika belum berakhir  maka nilai timer diatur dengan nilai-nilai yang sesuai
                     if (System.currentTimeMillis() < endTime) {
                         mStartTimeInMillis = startTime
                         mTimeLeftInMillis = endTime - System.currentTimeMillis()

@@ -33,11 +33,6 @@ class login : AppCompatActivity() {
             startActivity(intent)
         }
 
-//        binding.tvToRegister.setOnClickListener {
-//            val intent = Intent(this, register::class.java)
-//            startActivity(intent)
-//        }
-
         //button login ditekan
         binding.btnLogin.setOnClickListener{
             val email = binding.edtEmailLogin.text.toString()
