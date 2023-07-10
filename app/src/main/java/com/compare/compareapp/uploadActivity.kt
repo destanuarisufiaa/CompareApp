@@ -180,13 +180,13 @@ class uploadActivity : AppCompatActivity() {
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             //mendapatkan URI hasil cropping menggunakan “UCrop.getOutput(data!!)”
             val resultUri = UCrop.getOutput(data!!)
-            //mengonversi URI menjadi string dan menyimpannya ke variabel
+            //mengonversi URI menjadi string dan menyimpannya ke variabel foto
             foto = resultUri.toString()
             try {
                 //jika berhasil, membuka input stream dari URI hasil cropping dan mengonversinya menjadi objek bitmap
                 val inputStream = contentResolver.openInputStream(resultUri!!)
                 val bitmap = BitmapFactory.decodeStream(inputStream)
-                // Bitmap diatur sebagai gambar di ImageView
+                // Bitmap diatur sebagai gambar di ImageView (uploadImage) shg dpat ditampilkan pada imageview
                 uploadImage.setImageBitmap(bitmap)
             } catch (e: IOException) {
                 e.printStackTrace()

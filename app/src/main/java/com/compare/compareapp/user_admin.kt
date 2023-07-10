@@ -184,8 +184,11 @@ class user_admin : Fragment() {
                 binding.edtCurrentPassword.requestFocus()
                 return@btnConfirm
             }
+            //melakukan sebuah tindakan user
             user.let {
+                //autentikasi email user
                 val userCredential = EmailAuthProvider.getCredential(it?.email!!,pass)
+                //melakukan autentikasi password yang lama
                 it.reauthenticate(userCredential).addOnCompleteListener {  task ->
                     when {
                         task.isSuccessful -> {
@@ -236,6 +239,7 @@ class user_admin : Fragment() {
                     return@newChangePassword
                 }
                 user?.let {
+                    //melakukan update password
                     user.updatePassword(newPass).addOnCompleteListener {
                         if (it.isSuccessful){
                             Toast.makeText(activity, "Password Berhasil di Update", Toast.LENGTH_SHORT).show()

@@ -22,6 +22,7 @@
 
             <TextView
                 android:text="LIST PESANAN"
+                android:id="@+id/text_list"
                 android:layout_gravity="center_vertical"
                 android:textSize="30sp"
                 android:textStyle="bold"
@@ -36,6 +37,21 @@
 
         </LinearLayout>
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchViewRiwayat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Cari Kereta"
+            android:background="@drawable/bg_searchbar"
+            android:layoutDirection="rtl"
+            android:inputType="text"
+            android:searchIcon="@drawable/ic_baseline_search_24"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/purple_500"
+            android:layout_below="@+id/panel"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewPesanan"
             android:layout_width="match_parent"
@@ -44,7 +60,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/panel"
+            android:layout_below="@+id/searchViewRiwayat"
             android:scrollbars="vertical" />
     </RelativeLayout>
 

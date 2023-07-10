@@ -11,10 +11,12 @@ import com.compare.compareapp.databinding.FragmentRiwayatBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import java.util.Locale.filter
 
 class riwayat : Fragment() {
 
     private lateinit var binding: FragmentRiwayatBinding
+    private lateinit var riwayatadapter : RiwayatAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -42,7 +44,20 @@ class riwayat : Fragment() {
                 for (document in documents)
                 {
                     val riwayat = documents.toObjects(dataRiwayat::class.java)
-                    binding.recyclerViewPesanan.adapter = context?.let { RiwayatAdapter(it, riwayat) }
+                    riwayatadapter = context?.let { RiwayatAdapter(it, riwayat) }!!
+                    binding.recyclerViewPesanan.adapter = riwayatadapter
+
+                    binding.searchViewRiwayat.setOnQueryTextListener(object:androidx.appcompat.widget.SearchView.OnQueryTextListener{
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            return false
+                        }
+
+                        override fun onQueryTextChange(query: String?): Boolean {
+                            riwayatadapter.filter.filter(query)
+                            return false
+                        }
+
+                    })
 
                 }
 
